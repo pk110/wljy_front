@@ -9,8 +9,8 @@
                 <div class="lives_bottom">
                     <div class="lives_bottom_left">
                         <img src="" alt="">
-                        <span :class="item.specialMoney !== null?'lives_bottom_left_specialMoney':'lives_bottom_left_money'">23元</span>
-                        <span class="lives_bottom_left_money" style="padding-left:5px">{{item.specialMoney !== null?item.specialMoney+'元':null}}</span>
+                        <span :class="item.specialMoney !== 0?'lives_bottom_left_specialMoney':'lives_bottom_left_money'">23元</span>
+                        <span class="lives_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':null}}</span>
                     </div>
                     <div>{{item.time}}</div>
                 </div>
@@ -25,26 +25,44 @@
     export default {
         data () {
             return {
-                lives:this.$store.state.lives.lives
+
             }
         },
         methods:{
             onRefresh(){
                 setTimeout(() => {
-                    this.$store.state.lives.isLoading = false;
+                    this.getLIvesList()
                 }, 500);
+            },
+            //   获取直播列表页
+            getLIvesList(){
+                this.$post('/livesList')
+                    .then((res)=>{ 
+                        this.$stamp(null,res)
+                        if(res.code == 200){
+                            this.$store.dispatch('getLivesList',res.data)
+                        }else{
+                            this.$Toast('网络错误!')
+                        } 
+                    })
+                    .catch((res) =>{
+                        console.log(res)
+                })
             }
         },
         computed: {
             isLoading(){
                return this.$store.state.lives.isLoading
+            },
+            lives(){
+               return this.$store.state.lives.lives
             }
         },
         components: {
             'van-pull-refresh':PullRefresh
         },
         created(){
-        
+            this.getLIvesList()
         }
     }
 </script>

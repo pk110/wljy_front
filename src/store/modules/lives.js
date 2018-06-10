@@ -3,50 +3,30 @@ import {fetch,stamp} from './../../http/http'
 const lives = {
 	state: {
         isLoading:false,
-        lives:[
-            {
-                image:'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
-                title:'直播内容要什么啊asd',
-                people:12,
-                money:15,
-                specialMoney:12,
-                time:'2018-06-09'
-            },{
-                image:'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
-                title:'直播内容要什',
-                people:12,
-                money:15,
-                specialMoney:12,
-                time:'2018-06-09'
-            },{
-                image:'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
-                title:'直播内容要什么',
-                people:12,
-                money:15,
-                specialMoney:12,
-                time:'2018-06-09'
-            },{
-                image:'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
-                title:'直播内容要',
-                people:12,
-                money:15,
-                specialMoney:12,
-                time:'2018-06-09'
-            },{
-                image:'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
-                title:'直播内容',
-                people:12,
-                money:15,
-                specialMoney:12,
-                time:'2018-06-09'
-            }
-        ]
+        lives:[]
 	},
-	mutations: {
-    
+	mutations: { 
+	   getLivesList:(state,newData) =>{
+		   state.lives = newData
+           state.isLoading = false
+	   }
 	},
 	actions: {
-    
+        getLivesList:(context,data)=>{
+            let newData = []
+            for(let i = 0;i<data.length;i++){
+                const newTime = new Date(data[i].time).getFullYear()+'-'+new Date(data[i].time).getMonth()+'-'+new Date(data[i].time).getDate()
+                newData.push({
+                    image:data[i].image,
+                    title:data[i].title,
+                    people:data[i].people,
+                    money:data[i].money,
+                    specialMoney:data[i].specialMoney,
+                    time:newTime,
+                })
+            }
+            context.commit('getLivesList',newData)
+        }
 	},
 	getters: {
 

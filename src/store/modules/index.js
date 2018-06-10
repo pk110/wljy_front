@@ -2,14 +2,23 @@ import {fetch,stamp} from './../../http/http'
 
 const index = {
 	state: {
-        noticeBarText:'足协杯战线连续第2年上演广州德比战，上赛季半决赛上恒大以两回合5-3的总比分淘汰富力。',
-        noticeShow:true
+	   noticeBarText:'',
+	   noticeShow:true
 	},
 	mutations: {
-    
+	   getNotice:(state,notice) =>{
+		   if(notice){
+			state.noticeBarText = notice
+			state.noticeShow = true
+		   }else{
+			state.noticeShow = false
+		   }
+	   }
 	},
 	actions: {
-    
+	   getNotice:(context,notice) =>{
+		context.commit('getNotice',notice)
+	   }
 	},
 	getters: {
 

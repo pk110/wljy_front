@@ -30,7 +30,7 @@ export default {
         'van-tab':Tab
     },
     created(){
-      
+        
     },
     watch: {
         'active'(a) {

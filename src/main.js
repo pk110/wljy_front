@@ -4,11 +4,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import {post,fetch,patch,put,url} from './http/http'
+import axios from 'axios'
+import {post,fetch,patch,put} from './http/http'
 import {getCookie,setCookie,delCookie,stamp} from './utils/utils'
 import store from './store/store'
 import { Toast } from 'vant'
-import axios from 'axios'
 import { Lazyload } from 'vant';
 
 Vue.use(Lazyload,{
@@ -18,14 +18,15 @@ Vue.use(Lazyload,{
 });
 Vue.config.productionTip = false
 
-// 根地址
-axios.defaults.baseURL=url;
+// 根地址   http://192.168.42.2:3000  http://192.168.56.1:3000
+axios.defaults.baseURL = 'http://localhost:3000';
 
 // 全局调用
 Vue.prototype.$post = post;
 Vue.prototype.$fetch = fetch;
 Vue.prototype.$patch = patch;
 Vue.prototype.$put = put;
+Vue.prototype.$store = store;
 Vue.prototype.$stamp = stamp;
 Vue.prototype.$Toast = Toast;
 

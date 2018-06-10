@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-// 根地址https://m.yanss.cn   http://192.168.11.168:8080
-const BASE_URL = 'https://m.yanss.cn';  
-export function url(){
-    return BASE_URL
-}
+// 根地址https://m.yanss.cn   http://192.168.42.2:3000
+const BASE_URL = 'http://192.168.42.2:3000';  
+export default{  
+    BASE_URL  
+}  
 
 // get方法
 export function fetch(url,params = {})  {

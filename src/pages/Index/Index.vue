@@ -36,9 +36,7 @@
                 images: [
                     'http://t1.mmonly.cc/uploads/tu/201806/9999/2e4bc587e5.jpg',
                     'http://t1.mmonly.cc/uploads/tu/201806/9999/9f4c387e70.jpg'
-                ],
-                noticeBarText:this.$store.state.index.noticeBarText,
-                noticeShow:this.$store.state.index.noticeShow
+                ]
             }
         },
         methods:{
@@ -48,7 +46,12 @@
             }
         },
         computed: {
-        
+            noticeBarText(){
+                return this.$store.state.index.noticeBarText
+            },
+            noticeShow(){
+                return this.$store.state.index.noticeShow
+            }
         },
         components: {
             'van-search':Search,
@@ -57,7 +60,22 @@
             'van-notice-bar':NoticeBar
         },
         created(){
-
+            //获取通告信息
+            const data = {
+                title:'通告栏'
+            }
+            this.$post('/notice',data)
+                .then((res)=>{ 
+                    this.$stamp(null,res)
+                    if(res.code == 200){
+                        this.$store.dispatch('getNotice',res.data[0].content)
+                    }else{
+                        this.$Toast('网络错误!')
+                    }
+                })
+                .catch((res) =>{
+                    console.log(res)
+            })
         }
     }
 </script>
