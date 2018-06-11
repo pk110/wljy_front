@@ -3,7 +3,7 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <ul>
             <li v-for="item in lives" :key="item.title">
-                <img class="lives_img" :src="item.image" :alt="item.title">
+                <img class="lives_img" :src="item.image" :alt="item.title" v-lazy="item.image">
                 <p class="lives_title">{{item.title}}</p>
                 <p class="lives_people">{{item.people}}人已购买</p>
                 <div class="lives_bottom">
@@ -51,8 +51,13 @@
             }
         },
         computed: {
-            isLoading(){
-               return this.$store.state.lives.isLoading
+            isLoading:{
+                get: function(){
+                    return this.$store.state.lives.isLoading
+                },
+                set:function(){
+                    
+                }
             },
             lives(){
                return this.$store.state.lives.lives
