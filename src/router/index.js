@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './../store/store'
 
 Vue.use(Router)
 
@@ -19,7 +20,7 @@ const router =  new Router({
       component:  resolve => require(['./../pages/Index/Index'], resolve)
     },{
       // +++++++++++++++++++++ 未来
-      path: '/Future/lives',
+      path: '/Future/vedioes',
       name:'未来',
       component:  resolve => require(['./../pages/Future/Future'], resolve),
       children:[
@@ -32,9 +33,17 @@ const router =  new Router({
           name:'新闻',
           component: resolve => require(['./../pages/news/news'],resolve)
         },{
+          path:'/Future/news/:id',
+          name:'新闻详情',
+          component: resolve => require(['./../pages/news_detail/news_detail'],resolve)
+        },{
           path:'/Future/vedioes',
           name:'视频',
           component: resolve => require(['./../pages/vedioes/vedioes'],resolve)
+        },{
+          path:'/Future/vedioes/:id',
+          name:'视频详情',
+          component: resolve => require(['./../pages/vedioes_detail/vedioes_detail'],resolve)
         }
       ]
 
@@ -45,6 +54,15 @@ const router =  new Router({
       component:  resolve => require(['./../pages/My/My'], resolve)
     }
   ]
+})
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+  store.dispatch('showImg')
+  next()
+})
+
+router.afterEach((to) => {
+  store.dispatch('hiddenImg')
 })
 
 export default router;

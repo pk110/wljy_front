@@ -1,122 +1,117 @@
 <template>
-  <div class="lives">
+  <div class="lives_container">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <ul>
-            <li v-for="item in lives" :key="item.title">
-                <img class="lives_img" :src="item.image" :alt="item.title" v-lazy="item.image">
-                <p class="lives_title">{{item.title}}</p>
-                <p class="lives_people">{{item.people}}人已购买</p>
-                <div class="lives_bottom">
-                    <div class="lives_bottom_left">
-                        <img src="" alt="">
-                        <span :class="item.specialMoney !== 0?'lives_bottom_left_specialMoney':'lives_bottom_left_money'">23元</span>
-                        <span class="lives_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':null}}</span>
-                    </div>
-                    <div>{{item.time}}</div>
+        <ul class="lives">
+          <li v-for="item in lives" :key="item.title">
+            <div class="img" v-lazy:background-image="item.image">
+              <div class="img_content">
+                <span>{{item.author}}</span>
+                <div class="img_content_right">
+                    <img class="lives_hot_img" src="./../../assets/hot.png" :alt="item.author" />
+                    <span>{{item.hot}}</span>
                 </div>
-            </li>
+              </div>
+            </div>
+            <div class="lives_title">{{item.title}}</div>
+          </li>
         </ul>
     </van-pull-refresh>
   </div>
 </template>
 <script>
-   import { PullRefresh } from 'vant' 
+import { PullRefresh } from 'vant'
 
-    export default {
-        data () {
-            return {
-
-            }
-        },
-        methods:{
-            onRefresh(){
-                setTimeout(() => {
-                    this.getLIvesList()
-                }, 500);
-            },
-            //   获取直播列表页
-            getLIvesList(){
-                this.$post('/livesList')
-                    .then((res)=>{ 
-                        this.$stamp(null,res)
-                        if(res.code == 200){
-                            this.$store.dispatch('getLivesList',res.data)
-                        }else{
-                            this.$Toast('网络错误!')
-                        } 
-                    })
-                    .catch((res) =>{
-                        console.log(res)
-                })
-            }
-        },
-        computed: {
-            isLoading:{
-                get: function(){
-                    return this.$store.state.lives.isLoading
-                },
-                set:function(){
-                    
-                }
-            },
-            lives(){
-               return this.$store.state.lives.lives
-            }
-        },
-        components: {
-            'van-pull-refresh':PullRefresh
-        },
-        created(){
-            this.getLIvesList()
+export default {
+    data () {
+        return {
+          isLoading: false 
         }
+    },
+    methods:{
+      onRefresh() {
+        setTimeout(() => {
+          this.getLivesList()
+          this.isLoading = false;
+        }, 500);
+      },
+      //   获取新闻列表页
+      getLivesList(){
+          this.$post('/livesList')
+              .then((res)=>{ 
+                  this.$stamp(null,res)
+                  if(res.code == 200){
+                      this.$store.dispatch('getLivesList',res.data)
+                  }else{
+                      this.$Toast('网络错误!')
+                  } 
+              })
+              .catch((res) =>{
+                  console.log(res)
+          })
+      }
+    },
+    computed: {
+      lives(){
+        return this.$store.state.lives.lives
+      }
+    },
+    components: {
+      'van-pull-refresh':PullRefresh 
+    },
+    created(){
+      this.getLivesList()
     }
+}
 </script>
 <style lang="">
-  .lives{
-      box-sizing:border-box;
-      padding:0 15px;
+  .lives_container{
+    margin-top:0!important;
   }
-  .lives ul li{
-      width:2.8693rem;
-      float:left;
-      font-size:0.12rem;
-      color:#ddd;
-      margin-bottom:0.15rem;
+  .lives li{
+    width:49%;
+    float:left;
+    margin-top:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
   }
-  .lives ul li:nth-child(2n){
-      margin-left:0.15rem;
+  .lives li:nth-child(2n){
+    margin-left:2%;
   }
-  .lives_img{
-      width:100%;
-      height:1.7rem;
-      border-radius:10px;
+  .img{
+    position:relative;
+    width:100%;
+    height:1.8rem;
+    background-size:cover;
   }
   .lives_title{
-      width:100%;
-      padding:5px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color:#000;
+    box-sizing:border-box;
+    padding:4px 15px;
+    width:100%;    
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
   }
-  .lives_people{
-      text-align:right;
+  .img_content{
+    position:absolute;
+    bottom:0.15rem;
+    width:100%;
+    box-sizing:border-box;
+    padding:0 0.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:#fff;
+    font-size:0.14rem;
   }
-  .lives_bottom{
-      width:100%;
-      padding:5px 0;
-      display:flex;
-      justify-content:space-between;
+  .img_content_right{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
   }
-  .lives_bottom_left{
-      display:flex;
-      justify-content:flex-start;
-  }
-  .lives_bottom_left_money{
-      color:#d8a863;
-  }
-  .lives_bottom_left_specialMoney{
-      text-decoration:line-through;
-      color:#d8a863;
+  .lives_hot_img{
+    width:0.25rem;
+    height:0.25rem;
+    padding-right:0.1rem;
   }
 </style>

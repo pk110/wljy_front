@@ -10,10 +10,14 @@ import {getCookie,setCookie,delCookie,stamp} from './utils/utils'
 import store from './store/store'
 import { Toast } from 'vant'
 import { Lazyload } from 'vant';
+const error = require('./assets/png_error.png')
+const loading = require('./assets/loading_img.gif')
 
 Vue.use(Lazyload,{
-  loading:'./assets/png_error.png',
-  error:'./assets/png_error.png',
+  loading:loading,
+  error:error,
+  preload:'0.3',
+  attempt:1,    
   lazyComponent:true
 });
 Vue.config.productionTip = false

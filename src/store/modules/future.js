@@ -9,7 +9,8 @@ const future = {
             },{
                 name:'新闻'
             }
-        ]
+        ],
+        active:1
 	},
 	mutations: {
     

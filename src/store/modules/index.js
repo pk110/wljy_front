@@ -3,21 +3,22 @@ import {fetch,stamp} from './../../http/http'
 const index = {
 	state: {
 	   noticeBarText:'',
-	   noticeShow:true
+     noticeShow:true,
+     active:0
 	},
 	mutations: {
 	   getNotice:(state,notice) =>{
 		   if(notice){
-			state.noticeBarText = notice
-			state.noticeShow = true
+        state.noticeBarText = notice
+        state.noticeShow = true
 		   }else{
-			state.noticeShow = false
+			  state.noticeShow = false
 		   }
 	   }
 	},
 	actions: {
 	   getNotice:(context,notice) =>{
-		context.commit('getNotice',notice)
+		    context.commit('getNotice',notice)
 	   }
 	},
 	getters: {

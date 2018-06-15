@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view />
+    <img :src="loadingImg" v-if="showImg" class="loadingImg" /> 
     <!--底层公共部分-->
     <van-tabbar v-model="active" style="backgound-color:#f8f8f8;border-top:1px solid #eee">
       <van-tabbar-item v-for="item in routerList" :key="item.name" :to="item.path">
@@ -21,11 +22,12 @@ const index = require('./assets/index.png')
 const index_active = require('./assets/index_active.png')
 const my = require('./assets/my.png')
 const my_active = require('./assets/my_active.png')
+const loadingImg = require('./assets/loading.gif')
 
 export default {
     data () {
         return {
-          active: 0,
+          loadingImg,
           routerList:[
             {
               name:'首页',
@@ -36,7 +38,7 @@ export default {
               }
             },{
               name:'未来',
-              path:'/Future/lives',
+              path:'/Future/vedioes',
               icon: {
                 normal: index,
                 active: index_active
@@ -45,7 +47,7 @@ export default {
               name:'我的',
               path:'/My',
               icon: {
-                 normal: my_active,
+                normal: my_active,
                 active: my
               }
             }
@@ -56,7 +58,17 @@ export default {
       
     },
     computed: {
-    
+      showImg(){
+        return this.$store.state.imgShow
+      },
+      active:{
+          get:function(){
+            return this.$store.state.index.active
+          },
+          set:function(){
+              
+          }
+      }
     },
     components: {
       "van-tabbar":Tabbar,
@@ -64,6 +76,17 @@ export default {
     },
     created(){
       
+    },
+    watch: {
+      $route(to, from) {  
+          if(to.fullPath == '/index'){
+            this.$store.state.index.active = 0
+          }else if(to.fullPath == '/Future/vedioes'){
+            this.$store.state.index.active = 1
+          }else if(to.fullPath == '/My'){
+            this.$store.state.index.active = 2
+          }
+      } 
     }
 }
 </script>
@@ -99,5 +122,11 @@ export default {
   }  
   .van-tabbar-item--active{
     color:#d8a863;
+  }
+  .loadingImg{
+    width: 3rem;
+    margin: 0 auto;
+    margin-top: 3.5rem;
+    display: block;
   }
 </style>
