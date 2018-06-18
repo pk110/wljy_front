@@ -16,12 +16,12 @@
 
 <script>
 import { Tabbar, TabbarItem } from 'vant'
-const future = require('./assets/future.png')
-const future_active = require('./assets/future_active.png')
-const index = require('./assets/index.png')
+// const future = require('./assets/future.png')
+// const future_active = require('./assets/future_active.png')
+// const index = require('./assets/index.png')
 const index_active = require('./assets/index_active.png')
-const my = require('./assets/my.png')
-const my_active = require('./assets/my_active.png')
+// const my = require('./assets/my.png')
+// const my_active = require('./assets/my_active.png')
 const loadingImg = require('./assets/loading.gif')
 
 export default {
@@ -29,26 +29,48 @@ export default {
         return {
           loadingImg,
           routerList:[
+            // {
+            //   name:'首页',
+            //   path:'/index',
+            //   icon: {
+            //     normal: future,
+            //     active: future_active
+            //   }
+            // },{
+            //   name:'未来',
+            //   path:'/Future/vedioes',
+            //   icon: {
+            //     normal: index,
+            //     active: index_active
+            //   }
+            // },{
+            //   name:'我的',
+            //   path:'/My',
+            //   icon: {
+            //     normal: my_active,
+            //     active: my
+            //   }
+            // }
             {
               name:'首页',
               path:'/index',
               icon: {
-                normal: future,
-                active: future_active
+                normal: index_active,
+                active: index_active
               }
             },{
               name:'未来',
               path:'/Future/vedioes',
               icon: {
-                normal: index,
+                normal: index_active,
                 active: index_active
               }
             },{
               name:'我的',
               path:'/My',
               icon: {
-                normal: my_active,
-                active: my
+                normal: index_active,
+                active: index_active
               }
             }
           ]
