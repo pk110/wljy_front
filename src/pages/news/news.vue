@@ -56,7 +56,9 @@ export default {
       'van-pull-refresh':PullRefresh
     },
     created(){
-      this.getNewsList()
+      if(this.$store.state.news.news.length == 0){
+        this.getNewsList()
+      }
     }
 }
 </script>

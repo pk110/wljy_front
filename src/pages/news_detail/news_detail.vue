@@ -10,15 +10,18 @@
     </div>
     <img :src="news_detail.image" />
     <p>{{news_detail.content}}</p>
-    <ul class="news_comments">
+    <ul class="news_comments comments_bottom">
       <li v-for="item in news_detail.comments">
         <img class="news_comment_img" :src="item.comment_userImg" alt="">
         <div class="news_comment">
-          <p>{{item.comment_user}}</p>
+          <p style="color:gray">{{item.comment_name}}</p>
           <p>{{item.comment_content}}</p>
           <ul class="news_reply">
-            <li>继续在下面回复</li>
+            <li v-for="items in item.new_replys">
+              <span style="color:blue">{{items.re_name}}</span>评论<span style="color:blue">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
+            </li>
           </ul>
+          <p class="comments_time">{{item.time}}</p>
         </div>
       </li>
     </ul>
@@ -86,6 +89,10 @@ export default {
     align-items:center;
     padding:0.15rem 0;
   }
+  .comments_time{
+    margin-top:0.1rem;
+    color:#ccc;
+  }
   .author_detail{
     display:flex;
     justify-content:flex-start;
@@ -100,6 +107,9 @@ export default {
   .news_comments li{
     width:100%;
     display:flex;
+  }
+  .comments_bottom{
+    margin-bottom:0.8rem;
   }
   .news_comment_img{
     width:0.5rem;
@@ -116,5 +126,7 @@ export default {
   }
   .news_reply{
     background-color:#eee;
+    box-sizing: border-box;
+    padding: 10px;
   }
 </style>

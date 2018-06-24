@@ -3,17 +3,19 @@
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <ul>
             <li v-for="item in vedioes" :key="item.title">
+              <router-link :to="{path:'/Future/vedioes/'+item.id,params:{id:item.id}}">
                 <img class="vedioes_img" :src="item.image" :alt="item.title" v-lazy="item.image">
-                <p class="vedioes_title">{{item.title}}</p>
+                <p class="vedioes_title">{{item.title}}{{item.id}}</p>
                 <p class="vedioes_people">{{item.people}}人已购买</p>
                 <div class="vedioes_bottom">
                     <div class="vedioes_bottom_left">
                         <img class="vedioes_img_money" src="./../../assets/money.png" :alt="item.title">
                         <span :class="item.specialMoney !== 0?'vedioes_bottom_left_specialMoney':'vedioes_bottom_left_money'">{{item.money}}元</span>
-                        <span class="vedioes_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':null}}</span>
+                        <span class="vedioes_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':(item.money == 0?'免费':item.money+'元')}}</span>
                     </div>
                     <div>{{item.time}}</div>
                 </div>
+              </router-link>
             </li>
         </ul>
     </van-pull-refresh>
@@ -60,7 +62,9 @@
             'van-pull-refresh':PullRefresh
         },
         created(){
-            this.getVedioesList()
+            if(this.$store.state.vedioes.vedioes == 0){
+                this.getVedioesList()
+            }
         }
     }
 </script>

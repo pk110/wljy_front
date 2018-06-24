@@ -20,7 +20,7 @@ const router =  new Router({
       component:  resolve => require(['./../pages/Index/Index'], resolve)
     },{
       // +++++++++++++++++++++ 未来
-      path: '/Future/vedioes',
+      path: '/Future',
       name:'未来',
       component:  resolve => require(['./../pages/Future/Future'], resolve),
       children:[

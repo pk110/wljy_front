@@ -59,7 +59,9 @@ export default {
       'van-pull-refresh':PullRefresh 
     },
     created(){
-      this.getLivesList()
+      if(this.$store.state.lives.lives.length == 0){
+        this.getLivesList()
+      }
     }
 }
 </script>
