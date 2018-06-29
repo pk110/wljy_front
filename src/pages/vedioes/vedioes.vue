@@ -2,10 +2,10 @@
   <div class="vedioes">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <ul>
-            <li v-for="item in vedioes" :key="item.title">
+            <li v-for="(item,index) in vedioes" :key="index">
               <router-link :to="{path:'/Future/vedioes/'+item.id,params:{id:item.id}}">
                 <img class="vedioes_img" :src="item.image" :alt="item.title" v-lazy="item.image">
-                <p class="vedioes_title">{{item.title}}{{item.id}}</p>
+                <p class="vedioes_title">{{item.title}}</p>
                 <p class="vedioes_people">{{item.people}}人已购买</p>
                 <div class="vedioes_bottom">
                     <div class="vedioes_bottom_left">

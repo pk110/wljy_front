@@ -48,7 +48,7 @@ const router =  new Router({
       ]
 
     },{
-      // +++++++++++++++++++++ 卡片墙
+      // +++++++++++++++++++++ 我的
       path: '/My',
       name:'我的',
       component:  resolve => require(['./../pages/My/My'], resolve)

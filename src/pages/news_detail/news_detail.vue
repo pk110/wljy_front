@@ -39,7 +39,8 @@ export default {
       //   获取新闻详情页信息
       getNews_detail(news_id){
         const data = {
-          news_id:news_id
+          news_id:news_id,
+          topic_type:3
         }
         this.$post('/newsList_detail',data)
             .then((res)=>{ 
