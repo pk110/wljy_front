@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <router-view />
+
+    <router-view v-if="error == 1"/>
+    <!--请求数据失败动画-->
+    <img :src="errorImg" v-else class="loadingImg" />
+    <!--加载动画-->
     <img :src="loadingImg" v-if="showImg" class="loadingImg" /> 
     <!--底层公共部分-->
-    <van-tabbar v-model="active" style="backgound-color:#f8f8f8;border-top:1px solid #eee">
+    <van-tabbar v-if="isBottom == 1" v-model="active" style="backgound-color:#f8f8f8;border-top:1px solid #eee">
       <van-tabbar-item v-for="item in routerList" :key="item.name" :to="item.path">
         <span>{{item.name}}</span>
         <template slot="icon" slot-scope="props">
@@ -11,6 +15,7 @@
         </template>
       </van-tabbar-item>
     </van-tabbar>
+    <div v-else></div>
   </div>
 </template>
 
@@ -23,11 +28,13 @@ const index_active = require('./assets/index_active.png')
 // const my = require('./assets/my.png')
 // const my_active = require('./assets/my_active.png')
 const loadingImg = require('./assets/loading.gif')
+const errorImg = require('./assets/404.png')
 
 export default {
     data () {
         return {
           loadingImg,
+          errorImg,
           routerList:[
             // {
             //   name:'首页',
@@ -90,6 +97,12 @@ export default {
           set:function(){
               
           }
+      },
+      error(){
+        return this.$store.state.error
+      },
+      isBottom(){
+        return this.$store.state.isBottom
       }
     },
     components: {
@@ -108,6 +121,8 @@ export default {
           }else if(to.fullPath == '/My'){
             this.$store.state.index.active = 2
           }
+            this.$store.state.isBottom = 1 
+            this.$store.state.error = 1
       } 
     }
 }
@@ -148,7 +163,7 @@ export default {
   .loadingImg{
     width: 3rem;
     margin: 0 auto;
-    margin-top: 3.5rem;
+    padding-top: 3.5rem;
     display: block;
   }
 </style>

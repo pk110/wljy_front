@@ -11,19 +11,43 @@
       </video-player>
     </div>
     <div class="vedioes_detail_title">
-      <p>也催姐妹的日常那种撒旦阿德啊沙发沙发士大夫阿瑟东</p>
-      <p>2017-02-03</p>
+      <p class="vedioes_detail_title_left">{{vedioes_detail.title}}</p>
+      <p class="vedioes_detail_title_right">{{vedioes_detail.time}}</p>
     </div>
     <div class="vedioes_detail_author">
       <div class="vedioes_detail_author_left">
-        <img src="https://surmon-china.github.io/vue-quill-editor/static/images/surmon-9.jpg" />
-        <span>老邓</span>
+        <img :src="vedioes_detail.image" />
+        <span>{{vedioes_detail.author}}</span>
       </div>
-      <div>关注</div>
+      <div class="vedioes_detail_author_right">+ 关注</div>
     </div>
+    <div class="vedioes_head">全部评论</div>
+    <ul class="vedioes_comments comments_bottom">
+      <li v-for="item in vedioes_detail.comments" :key="item.comment_name">
+        <img class="vedioes_comment_img" :src="item.comment_userImg" alt="">
+        <div class="vedioes_comment">
+          <p style="color:gray">{{item.comment_name}}</p>
+          <p>{{item.comment_content}}</p>
+          <ul>
+            <li class="vedioes_reply" v-for="items in item.new_replys">
+              <span style="color:blue">{{items.re_name}}</span>评论<span style="color:blue">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
+            </li>
+          </ul>
+          <p class="comments_time">{{item.time}}</p>
+        </div>
+      </li>
+    </ul>
+    <div @click="isShowComment" class="vedioes_comment_bottom">
+      <img src="./../../assets/comment.png" />
+      <span>评论</span>
+    </div>
+    <transition  name="sideUp">
+      <comment v-if="showComment"></comment>
+    </transition>
   </div>
 </template>
 <script>
+import comment from './../../components/comment/comment'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 import './vedioes.css'
@@ -51,20 +75,24 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
               src: 'rtmp://184.72.239.149/vod/&mp4:BigBuckBunny_115k.mov'
             },{
               type: "video/mp4",
-              src: 'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
-            },{
-              withCredentials: false,
-              type: 'application/x-mpegURL',
-              src: 'http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8'
-            },{
-              // mp4
-              // type: 'video/mp4',
-              // src: 'http://vjs.zencdn.net/v/oceans.mp4',
-              // flv
-              type: 'video/x-flv',
-              src: 'http://fms.cntv.lxdns.com/live/flv/channel96.flv'
-            }], //sources会根据视频源格式先后播放 谁能播放谁放在最前面就播放当前视频源
-            poster: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-9.jpg'
+              src: this.$store.state.vedioes.vedioesAddress
+              // https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm
+            }
+            // ,{
+            //   withCredentials: false,
+            //   type: 'application/x-mpegURL',
+            //   src: 'http://playertest.longtailvideo.com/adaptive/bipbop/gear4/prog_index.m3u8'
+            // },{
+            //   // mp4
+            //   // type: 'video/mp4',
+            //   // src: 'http://vjs.zencdn.net/v/oceans.mp4',
+            //   // flv
+            //   type: 'video/x-flv',
+            //   src: 'http://fms.cntv.lxdns.com/live/flv/channel96.flv'
+            // }
+            ], //sources会根据视频源格式先后播放 谁能播放谁放在最前面就播放当前视频源
+            poster: this.$store.state.vedioes.vedioesPoster
+            // 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-9.jpg'
           }
         }
     },
@@ -94,17 +122,34 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
             .catch((res) =>{
                 console.log(res)
         })
+      },
+      isShowComment(){
+        console.log(this)
+        this.$store.state.vedioes.showComment = true
       }
     },
     computed: {
       player() {
         return this.$refs.videoPlayer.player
+      },
+      vedioes_detail:{
+        get:function(){
+          return this.$store.state.vedioes.vedioes_detail
+        },
+        set:function(){
+
+        }
+      },
+      showComment(){
+        return this.$store.state.vedioes.showComment
       }
     },
     components: {
-      videoPlayer
+      videoPlayer,
+      comment
     },
     created(){
+      this.$store.state.isBottom = 0
       this.$stamp(null,this.$route.params.id)
       this.getVedioes_detail(this.$route.params.id)
     }
@@ -116,5 +161,125 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
 </script>
 
 <style lang="">
-  
+  .vedioes_detail_title{
+    width:100%;
+    box-sizing:border-box;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+  }
+  .vedioes_detail_title_left{
+    font-size:0.26rem;
+    font-weight:bold;
+  }
+  .vedioes_detail_title_right{
+    text-align:right;
+    color:#ccc;
+  }
+  .vedioes_detail_author{
+    width:100%;
+    box-sizing:border-box;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .vedioes_detail_author_left{
+    flex:1;
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+  }
+  .vedioes_detail_author_left img{
+    width:0.6rem;
+    height:0.6rem;
+    border-radius:50%;
+    margin-right:10px;
+  }
+  .vedioes_detail_author_left span{
+    font-size:0.26rem;
+    color:#010101;
+  }
+  .vedioes_detail_author_right{
+    box-sizing:border-box;
+    padding:3px 10px;
+    background-color:#f44;
+    border-radius:3px;
+    color:#fff;
+  }
+  .vedioes_head{
+    box-sizing:border-box;
+    margin:0 10px;
+    padding:10px 0;
+    font-size:0.28rem;
+    font-weight:bold;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    /*border-top:1px solid #ddd;*/
+  }
+  .vedioes_comments{
+    width:100%;
+    box-sizing:border-box;
+    padding:0 10px;
+  }
+  .vedioes_comments li{
+    width:100%;
+    display:flex;
+  }
+  .comments_bottom{
+    margin-bottom:0.8rem;
+  }
+  .vedioes_comment_img{
+    width:0.5rem;
+    height:0.5rem;
+    margin-top:0.3rem;
+    margin-right:0.15rem;
+    border-radius:50%;
+  }
+  .vedioes_comment{
+    box-sizing:border-box;
+    padding:0.15rem 0;
+    flex:1;
+    border-top:1px solid #ccc;
+  }
+  .vedioes_reply{
+    background-color:#eee;
+    box-sizing: border-box;
+    padding: 4px;
+  }
+  .vedioes_comment_bottom{
+    width:100%;
+    padding:10px 0;
+    text-align:center;
+    background-color:#eee;
+    color:gray;
+    box-shadow: 0px -2px 3px #ccc;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:fixed;
+    bottom:0;
+    z-index:202;
+  }
+  .vedioes_comment_bottom:active{
+    background-color:#ddd;
+  }
+  .vedioes_comment_bottom img{
+    width:20px;
+    height:20px;
+    margin-right:3px;
+  }
+  /* 可以设置不同的进入和离开动画 */
+  /* 设置持续时间和动画函数 */
+  .sideUp-enter-to, .sideUp-leave-to{
+      transition: transform 0.3s
+  }
+  .sideUp-enter, .sideUp-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+      transform:translate3d(0,100%,0)
+  }
+  :global(.vjs-custom-skin > .video-js .vjs-play-progress){
+    background-color:#fff;
+  }
 </style>

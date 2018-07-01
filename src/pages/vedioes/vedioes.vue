@@ -13,7 +13,7 @@
                         <span :class="item.specialMoney !== 0?'vedioes_bottom_left_specialMoney':'vedioes_bottom_left_money'">{{item.money}}元</span>
                         <span class="vedioes_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':(item.money == 0?'免费':item.money+'元')}}</span>
                     </div>
-                    <div>{{item.time}}</div>
+                    <div class="vedioes_time">{{item.time}}</div>
                 </div>
               </router-link>
             </li>
@@ -99,6 +99,10 @@
   }
   .vedioes_people{
       text-align:right;
+      color:#000;
+  }
+  .vedioes_time{
+      color:#ccc;
   }
   .vedioes_bottom{
       width:100%;

@@ -9,7 +9,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    imgShow:true
+    imgShow:true,
+    error:1,  //请求失败
+    isBottom:1  //什么时候不需要底部
   },
   getters: {
     

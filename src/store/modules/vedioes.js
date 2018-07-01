@@ -2,16 +2,20 @@ import {fetch,stamp} from './../../http/http'
 
 const vedioes = {
 	state: {
-        vedioes:[
-
-        ]
+        vedioes:[],
+        vedioes_detail:[],
+        vedioesAddress:'',
+        vedioesPoster:'',
+        showComment:false
 	},
 	mutations: { 
 	   getVedioesList:(state,newData) =>{
 		    state.vedioes = newData
      },
      getVedioes_detail:(state,newData) =>{
-		    state.vedioes = newData
+		    state.vedioes_detail = newData
+            state.vedioesAddress = newData.vedioes
+            state.vedioesPoster = newData.image
      }
 	},
 	actions: {

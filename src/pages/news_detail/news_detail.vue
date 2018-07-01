@@ -11,13 +11,13 @@
     <img :src="news_detail.image" />
     <p>{{news_detail.content}}</p>
     <ul class="news_comments comments_bottom">
-      <li v-for="item in news_detail.comments">
+      <li v-for="item in news_detail.comments" :key="item.comment_name">
         <img class="news_comment_img" :src="item.comment_userImg" alt="">
         <div class="news_comment">
           <p style="color:gray">{{item.comment_name}}</p>
           <p>{{item.comment_content}}</p>
-          <ul class="news_reply">
-            <li v-for="items in item.new_replys">
+          <ul>
+            <li class="news_reply" v-for="items in item.new_replys">
               <span style="color:blue">{{items.re_name}}</span>评论<span style="color:blue">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
             </li>
           </ul>
@@ -128,6 +128,6 @@ export default {
   .news_reply{
     background-color:#eee;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 4px;
   }
 </style>

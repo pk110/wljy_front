@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import store from './../store/store'
 // 根地址https://m.yanss.cn   http://192.168.42.2:3000
 const BASE_URL = 'http://192.168.42.2:3000';  
 export default{  
@@ -13,11 +13,10 @@ export function fetch(url,params = {})  {
             params:params
         })
         .then(response => {
-            if(response.data.code == 0){
-              delCookie('userLogin')
-              delCookie('username')
-              document.location.reload()
-              alert('账号失效，请重新登陆')
+            if(response.data.code == 400){
+                store.state.error = 0    
+            }else if(response.data.code == 200){
+                store.state.error = 1  
             }
             resolve(response.data);
         })
@@ -33,11 +32,10 @@ export function post(url,data = {}){
     return new Promise((resolve,reject) => {
         axios.post(url,data)
             .then(response => {
-                if(response.data.code == 0){
-                  delCookie('userLogin')
-                  delCookie('username')
-                  document.location.reload()
-                  alert('账号失效，请重新登陆')
+                if(response.data.code == 400){
+                    store.state.error = 0
+                }else if(response.data.code == 200){
+                    store.state.error = 1  
                 }
                 resolve(response.data);
             },err => {
