@@ -22,22 +22,26 @@
       <div class="vedioes_detail_author_right">+ 关注</div>
     </div>
     <div class="vedioes_head">全部评论</div>
-    <ul class="vedioes_comments comments_bottom">
+    <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">
       <li v-for="item in vedioes_detail.comments" :key="item.comment_name">
         <img class="vedioes_comment_img" :src="item.comment_userImg" alt="">
         <div class="vedioes_comment">
           <p style="color:gray">{{item.comment_name}}</p>
           <p>{{item.comment_content}}</p>
           <ul>
-            <li class="vedioes_reply" v-for="items in item.new_replys">
-              <span style="color:blue">{{items.re_name}}</span>评论<span style="color:blue">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
+            <li class="vedioes_reply" v-for="items in item.new_replys" @click="isShowComment(item.comment_id,items.reply_user_id,1)"><!--reply_user_id是第一个人的id-->
+              <span style="color:gray">{{items.re_name}}</span>评论<span style="color:gray">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
             </li>
           </ul>
-          <p class="comments_time">{{item.time}}</p>
+          <div class="vedioes_bottom">
+            <span>{{item.time}}</span>
+            <img src="./../../assets/commentList.png" @click="isShowComment(item.comment_id,item.comment_user_id,2)" /><!--comment_user_id是最外层评论人的id-->
+          </div>
         </div>
       </li>
     </ul>
-    <div @click="isShowComment" class="vedioes_comment_bottom">
+    <div v-else class="noComment">暂时没有评论</div>
+    <div @click="isShowComment(null,'1',3)" class="vedioes_comment_bottom">
       <img src="./../../assets/comment.png" />
       <span>评论</span>
     </div>
@@ -47,6 +51,7 @@
   </div>
 </template>
 <script>
+import {formateTime} from './../../utils/utils'
 import comment from './../../components/comment/comment'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
@@ -97,14 +102,17 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
         }
     },
     methods:{
+      // 开始播放
       onPlayerPlay(player) {
         console.log(player.paused())
         this.onPlayerPause()
         console.log(this)
       },
+      // 停止播放
       onPlayerPause(player){
         console.log(player)
       },
+      // 获取详情页信息
       getVedioes_detail(vedioes_id){
         const data = {
           vedioes_id:vedioes_id,
@@ -123,8 +131,18 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
                 console.log(res)
         })
       },
-      isShowComment(){
-        console.log(this)
+      //弹出评论弹框
+      isShowComment(id,val,bool){
+        this.$stamp(null,id)
+        this.$stamp(null,val)
+        this.$stamp(null,bool)
+        this.$store.state.vedioes.comment_id = id
+        this.$store.state.vedioes.commentType = bool
+        if(bool == 3){
+          this.$store.state.vedioes.comment_user_id = val
+        }else{
+          this.$store.state.vedioes.reply_user_id = val
+        }
         this.$store.state.vedioes.showComment = true
       }
     },
@@ -151,6 +169,7 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     created(){
       this.$store.state.isBottom = 0
       this.$stamp(null,this.$route.params.id)
+      this.$store.state.vedioes.vedioes_id = this.$route.params.id
       this.getVedioes_detail(this.$route.params.id)
     }
     // ,
@@ -248,6 +267,9 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     box-sizing: border-box;
     padding: 4px;
   }
+  .vedioes_reply:active{
+    background-color:#e1e1e1;
+  }
   .vedioes_comment_bottom{
     width:100%;
     padding:10px 0;
@@ -260,7 +282,7 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     align-items:center;
     position:fixed;
     bottom:0;
-    z-index:202;
+    z-index:2;
   }
   .vedioes_comment_bottom:active{
     background-color:#ddd;
@@ -269,6 +291,21 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     width:20px;
     height:20px;
     margin-right:3px;
+  }
+  .vedioes_bottom{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .vedioes_bottom img{
+    width:20px;
+    height:20px;
+  }
+  .noComment{
+    width:100%;
+    text-align:center;
+    margin-top: 0.4rem;
   }
   /* 可以设置不同的进入和离开动画 */
   /* 设置持续时间和动画函数 */

@@ -1,4 +1,4 @@
-import {fetch,stamp} from './../../http/http'
+import {fetch,post,stamp} from './../../http/http'
 
 const vedioes = {
 	state: {
@@ -6,7 +6,12 @@ const vedioes = {
         vedioes_detail:[],
         vedioesAddress:'',
         vedioesPoster:'',
-        showComment:false
+        showComment:false,
+        comment_user_id:'',   //直接评论视频的用户id
+        reply_user_id:'',   //回复评论人的用户id
+        commentType: 1,// 切换区分是评论还是回复
+        comment_id:0, //评论ID
+        vedioes_id:''  //视频详情唯一id
 	},
 	mutations: { 
 	   getVedioesList:(state,newData) =>{
@@ -14,8 +19,11 @@ const vedioes = {
      },
      getVedioes_detail:(state,newData) =>{
 		    state.vedioes_detail = newData
-            state.vedioesAddress = newData.vedioes
-            state.vedioesPoster = newData.image
+        state.vedioesAddress = newData.vedioes
+        state.vedioesPoster = newData.image
+     },
+     cancelComment:(state) =>{
+        state.showComment = false
      }
 	},
 	actions: {
@@ -35,8 +43,13 @@ const vedioes = {
         }
         context.commit('getVedioesList',newData)
     },
-    getVedioes_detail:(context,data) =>{
-      context.commit('getVedioes_detail',data)
+    //取消评论弹窗
+    cancelComment:({commit}) =>{
+      commit('cancelComment')
+    },
+    //获取视频详情页信息
+    getVedioes_detail:(context,date) =>{
+      context.commit('getVedioes_detail',date)
     }
 	},
 	getters: {

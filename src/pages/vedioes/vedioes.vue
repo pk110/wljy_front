@@ -39,18 +39,18 @@
             },
             //   获取直播列表页
             getVedioesList(){
-                this.$post('/vedioesList')
-                    .then((res)=>{ 
-                        this.$stamp(null,res)
-                        if(res.code == 200){
-                            this.$store.dispatch('getVedioesList',res.data)
-                        }else{
-                            this.$Toast('网络错误!')
-                        } 
-                    })
-                    .catch((res) =>{
-                        console.log(res)
-                })
+              this.$post('/vedioesList')
+                  .then((res)=>{ 
+                      this.$stamp(null,res)
+                      if(res.code == 200){
+                          this.$store.dispatch('getVedioesList',res.data)
+                      }else{
+                          this.$Toast('网络错误!')
+                      } 
+                  })
+                  .catch((res) =>{
+                      console.log(res)
+              })
             }
         },
         computed: {

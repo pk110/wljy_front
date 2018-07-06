@@ -8,11 +8,11 @@ import axios from 'axios'
 import {post,fetch,patch,put} from './http/http'
 import {getCookie,setCookie,delCookie,stamp} from './utils/utils'
 import store from './store/store'
-import { Toast } from 'vant'
-import { Lazyload } from 'vant';
+import { Lazyload,Field,Toast} from 'vant';
 const error = require('./assets/png_error.png')
 const loading = require('./assets/loading_img.gif')
 
+Vue.use(Field);
 Vue.use(Lazyload,{
   loading:loading,
   error:error,
