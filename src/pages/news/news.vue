@@ -1,22 +1,26 @@
 <template>
-  <div class="news_container">
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <ul class="news">
-          <li v-for="item in news" :key="item.title">
-            <router-link :to="{path:'/Future/news/'+item.news_id,params:{news_id:item.news_id}}">
-              <div class="author">
-                —— <img class="headImage" :src="item.headImage" :alt="item.title" /><span>{{item.author}}</span> ——
-              </div>
-              <img class="news_img" :src="item.image" :alt="item.title" v-lazy="item.image" />
-              <div class="title">{{item.title}}</div>
-            </router-link>
-          </li>
-        </ul>
-    </van-pull-refresh>
+  <div>
+    <Future />
+    <div class="news_container">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <ul class="news">
+            <li v-for="item in news" :key="item.title">
+              <router-link :to="{path:'/Future/news/'+item.news_id,params:{news_id:item.news_id}}">
+                <div class="author">
+                  —— <img class="headImage" :src="item.headImage" :alt="item.title" /><span>{{item.author}}</span> ——
+                </div>
+                <img class="news_img" :src="item.image" :alt="item.title" v-lazy="item.image" />
+                <div class="title">{{item.title}}</div>
+              </router-link>
+            </li>
+          </ul>
+      </van-pull-refresh>
+    </div>
   </div>
 </template>
 <script>
 import { PullRefresh } from 'vant'
+import Future from './../../components/Future/Future' 
 
 export default {
     data () {
@@ -53,7 +57,8 @@ export default {
       }
     },
     components: {
-      'van-pull-refresh':PullRefresh
+      'van-pull-refresh':PullRefresh,
+      Future
     },
     created(){
       if(this.$store.state.news.news.length == 0){
@@ -71,6 +76,8 @@ export default {
     box-sizing:border-box;
     padding:0 15px;
     overflow-y:scroll;
+    margin-top: 38px;
+    margin-bottom: 38px;
   }
   .news li{
     background-color:#fff;

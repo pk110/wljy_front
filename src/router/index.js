@@ -18,40 +18,44 @@ const router =  new Router({
       path: '/Index',
       name:'首页',
       component:  resolve => require(['./../pages/Index/Index'], resolve)
+    }
+    ,{
+      // +++++++++++++++++++++ 直播
+      path: '/Future/lives',
+      name:'直播',
+      component:  resolve => require(['./../pages/lives/lives'], resolve)
     },{
-      // +++++++++++++++++++++ 未来
-      path: '/Future',
-      name:'未来',
-      component:  resolve => require(['./../pages/Future/Future'], resolve),
-      children:[
-        {
-          path:'/Future/lives',
-          name:'直播',
-          component: resolve => require(['./../pages/lives/lives'],resolve)
-        },{
-          path:'/Future/news',
-          name:'新闻',
-          component: resolve => require(['./../pages/news/news'],resolve)
-        },{
-          path:'/Future/news/:id',
-          name:'新闻详情',
-          component: resolve => require(['./../pages/news_detail/news_detail'],resolve)
-        },{
-          path:'/Future/vedioes',
-          name:'视频',
-          component: resolve => require(['./../pages/vedioes/vedioes'],resolve)
-        },{
-          path:'/Future/vedioes/:id',
-          name:'视频详情',
-          component: resolve => require(['./../pages/vedioes_detail/vedioes_detail'],resolve)
-        }
-      ]
-
+      // +++++++++++++++++++++ 新闻
+      path: '/Future/news',
+      name:'新闻',
+      component:  resolve => require(['./../pages/news/news'], resolve)
+    },
+    {
+      // +++++++++++++++++++++ 新闻详情
+      path:'/Future/news/:id',
+      name:'新闻详情',
+      component: resolve => require(['./../pages/news_detail/news_detail'],resolve)
+    },{
+      // +++++++++++++++++++++ 视频
+      path: '/Future/vedioes',
+      name:'视频',
+      component:  resolve => require(['./../pages/vedioes/vedioes'], resolve)
+    },
+    {
+      // +++++++++++++++++++++ 视频详情
+      path:'/Future/vedioes/:id',
+      name:'视频详情',
+      component: resolve => require(['./../pages/vedioes_detail/vedioes_detail'],resolve)
     },{
       // +++++++++++++++++++++ 我的
       path: '/My',
       name:'我的',
       component:  resolve => require(['./../pages/My/My'], resolve)
+    },{
+      // ++++++++++++++++++++++我的关注
+      path: '/MyAttention',
+      name:'我的关注',
+      component:  resolve => require(['./../pages/MyAttention/MyAttention'], resolve)
     }
   ]
 })

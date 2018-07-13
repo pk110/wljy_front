@@ -11,7 +11,7 @@
       </div>
       <van-cell-group>
          <van-cell title="订单管理" icon="pending-orders" is-link />
-         <van-cell title="收藏" icon="like-o" is-link />
+         <van-cell title="我的关注" :to='myAttention' icon="like-o" is-link />
          <van-cell title="我的课程" icon="records" is-link />
          <van-cell title="学习计划" icon="edit-data" is-link />
       </van-cell-group>
@@ -23,7 +23,7 @@
     export default {
         data () {
             return {
-                
+                myAttention:'/MyAttention'
             }
         },
         methods:{

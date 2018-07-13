@@ -1,25 +1,29 @@
 <template>
-  <div class="lives_container">
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <ul class="lives">
-          <li v-for="item in lives" :key="item.title">
-            <div class="img" v-lazy:background-image="item.image">
-              <div class="img_content">
-                <span>{{item.author}}</span>
-                <div class="img_content_right">
-                    <img class="lives_hot_img" src="./../../assets/hot.png" :alt="item.author" />
-                    <span>{{item.hot}}</span>
+  <div>
+    <Future />
+    <div class="lives_container">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <ul class="lives">
+            <li v-for="item in lives" :key="item.title">
+              <div class="img" v-lazy:background-image="item.image">
+                <div class="img_content">
+                  <span>{{item.author}}</span>
+                  <div class="img_content_right">
+                      <img class="lives_hot_img" src="./../../assets/hot.png" :alt="item.author" />
+                      <span>{{item.hot}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="lives_title">{{item.title}}</div>
-          </li>
-        </ul>
-    </van-pull-refresh>
+              <div class="lives_title">{{item.title}}</div>
+            </li>
+          </ul>
+      </van-pull-refresh>
+    </div>
   </div>
 </template>
 <script>
 import { PullRefresh } from 'vant'
+import Future from './../../components/Future/Future' 
 
 export default {
     data () {
@@ -56,7 +60,8 @@ export default {
       }
     },
     components: {
-      'van-pull-refresh':PullRefresh 
+      'van-pull-refresh':PullRefresh,
+      Future
     },
     created(){
       if(this.$store.state.lives.lives.length == 0){
@@ -67,7 +72,8 @@ export default {
 </script>
 <style lang="">
   .lives_container{
-    margin-top:0!important;
+    margin-top: 45px;
+    margin-bottom: 45px;
   }
   .lives li{
     width:49%;

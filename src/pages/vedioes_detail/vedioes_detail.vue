@@ -19,7 +19,8 @@
         <img :src="vedioes_detail.image" />
         <span>{{vedioes_detail.author}}</span>
       </div>
-      <div class="vedioes_detail_author_right">+ 关注</div>
+      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention('1',vedioes_detail.id,2)">+ 关注</div>
+      <div class="vedioes_detail_author_right_did" @click="cancelAttention('1',vedioes_detail.id,2)" v-else>已关注</div>
     </div>
     <div class="vedioes_head">全部评论</div>
     <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">
@@ -52,7 +53,7 @@
 </template>
 <script>
 import {formateTime} from './../../utils/utils'
-import comment from './../../components/comment/comment'
+import comment from './../../components/commentVedioes/comment'
 import 'video.js/dist/video-js.css'
 import 'vue-video-player/src/custom-theme.css'
 import './vedioes.css'
@@ -106,7 +107,6 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       onPlayerPlay(player) {
         console.log(player.paused())
         this.onPlayerPause()
-        console.log(this)
       },
       // 停止播放
       onPlayerPause(player){
@@ -115,6 +115,7 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       // 获取详情页信息
       getVedioes_detail(vedioes_id){
         const data = {
+          user_id:'1',
           vedioes_id:vedioes_id,
           topic_type:2
         }
@@ -144,6 +145,46 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
           this.$store.state.vedioes.reply_user_id = val
         }
         this.$store.state.vedioes.showComment = true
+      },
+      // 关注视频
+      attention(user_id,vedioes_id,topic_type){
+        const data = {
+          user_id:'1',
+          to_id:vedioes_id,
+          topic_type:2
+        }
+        this.$post('/vedioesAttention',data)
+            .then((res)=>{ 
+                this.$stamp(null,res)
+                if(res.code == 200){
+                  this.getVedioes_detail(this.$store.state.vedioes.vedioes_id)
+                }else{
+                  this.$Toast('网络错误!')
+                } 
+            })
+            .catch((res) =>{
+                console.log(res)
+        })
+      },
+      //取消关注视频
+      cancelAttention(user_id,vedioes_id,topic_type){
+        const data = {
+          user_id:'1',
+          to_id:vedioes_id,
+          topic_type:2
+        }
+        this.$post('/cancelVedioesAttention',data)
+            .then((res)=>{ 
+                this.$stamp(null,res)
+                if(res.code == 200){
+                  this.getVedioes_detail(this.$store.state.vedioes.vedioes_id)
+                }else{
+                  this.$Toast('网络错误!')
+                } 
+            })
+            .catch((res) =>{
+                console.log(res)
+        })
       }
     },
     computed: {
@@ -226,6 +267,13 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     border-radius:3px;
     color:#fff;
   }
+  .vedioes_detail_author_right_did{
+    box-sizing:border-box;
+    padding:3px 10px;
+    background-color:#ccc;
+    border-radius:3px;
+    color:#fff;
+  }
   .vedioes_head{
     box-sizing:border-box;
     margin:0 10px;
@@ -301,20 +349,6 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
   .vedioes_bottom img{
     width:20px;
     height:20px;
-  }
-  .noComment{
-    width:100%;
-    text-align:center;
-    margin-top: 0.4rem;
-  }
-  /* 可以设置不同的进入和离开动画 */
-  /* 设置持续时间和动画函数 */
-  .sideUp-enter-to, .sideUp-leave-to{
-      transition: transform 0.3s
-  }
-  .sideUp-enter, .sideUp-leave-to
-  /* .slide-fade-leave-active for below version 2.1.8 */ {
-      transform:translate3d(0,100%,0)
   }
   :global(.vjs-custom-skin > .video-js .vjs-play-progress){
     background-color:#fff;

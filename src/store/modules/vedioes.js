@@ -22,7 +22,7 @@ const vedioes = {
         state.vedioesAddress = newData.vedioes
         state.vedioesPoster = newData.image
      },
-     cancelComment:(state) =>{
+     cancelCommentVedioes:(state) =>{
         state.showComment = false
      }
 	},
@@ -44,8 +44,8 @@ const vedioes = {
         context.commit('getVedioesList',newData)
     },
     //取消评论弹窗
-    cancelComment:({commit}) =>{
-      commit('cancelComment')
+    cancelCommentVedioes:({commit}) =>{
+      commit('cancelCommentVedioes')
     },
     //获取视频详情页信息
     getVedioes_detail:(context,date) =>{

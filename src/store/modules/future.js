@@ -3,10 +3,13 @@ const future = {
 	state: {
         futureList:[
             {
-                name:'直播'
+              id:0,
+              name:'直播'
             },{
+              id:1,
                 name:'视频'
             },{
+              id:2,
                 name:'新闻'
             }
         ],

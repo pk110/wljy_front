@@ -1,28 +1,32 @@
 <template>
-  <div class="vedioes">
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <ul>
-            <li v-for="(item,index) in vedioes" :key="index">
-              <router-link :to="{path:'/Future/vedioes/'+item.id,params:{id:item.id}}">
-                <img class="vedioes_img" :src="item.image" :alt="item.title" v-lazy="item.image">
-                <p class="vedioes_title">{{item.title}}</p>
-                <p class="vedioes_people">{{item.people}}人已购买</p>
-                <div class="vedioes_bottom">
-                    <div class="vedioes_bottom_left">
-                        <img class="vedioes_img_money" src="./../../assets/money.png" :alt="item.title">
-                        <span :class="item.specialMoney !== 0?'vedioes_bottom_left_specialMoney':'vedioes_bottom_left_money'">{{item.money}}元</span>
-                        <span class="vedioes_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':(item.money == 0?'免费':item.money+'元')}}</span>
-                    </div>
-                    <div class="vedioes_time">{{item.time}}</div>
-                </div>
-              </router-link>
-            </li>
-        </ul>
-    </van-pull-refresh>
+  <div>
+    <Future />
+    <div class="vedioes">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <ul>
+              <li v-for="(item,index) in vedioes" :key="index">
+                <router-link :to="{path:'/Future/vedioes/'+item.id,params:{id:item.id}}">
+                  <img class="vedioes_img" :src="item.image" :alt="item.title" v-lazy="item.image">
+                  <p class="vedioes_title">{{item.title}}</p>
+                  <p class="vedioes_people">{{item.people}}人已购买</p>
+                  <div class="vedioes_bottom">
+                      <div class="vedioes_bottom_left">
+                          <img class="vedioes_img_money" src="./../../assets/money.png" :alt="item.title">
+                          <span :class="item.specialMoney !== 0?'vedioes_bottom_left_specialMoney':'vedioes_bottom_left_money'">{{item.money}}元</span>
+                          <span class="vedioes_bottom_left_money" style="padding-left:5px;color:red">{{item.specialMoney !== 0?item.specialMoney+'元':(item.money == 0?'免费':item.money+'元')}}</span>
+                      </div>
+                      <div class="vedioes_time">{{item.time}}</div>
+                  </div>
+                </router-link>
+              </li>
+          </ul>
+      </van-pull-refresh>
+    </div>
   </div>
 </template>
 <script>
    import { PullRefresh } from 'vant' 
+   import Future from './../../components/Future/Future' 
 
     export default {
         data () {
@@ -59,7 +63,8 @@
             }
         },
         components: {
-            'van-pull-refresh':PullRefresh
+            'van-pull-refresh':PullRefresh,
+            Future
         },
         created(){
             if(this.$store.state.vedioes.vedioes == 0){
@@ -70,9 +75,10 @@
 </script>
 <style lang="">
   .vedioes{
-      box-sizing:border-box;
-      padding:0 15px;
-      margin-top:15px;
+    box-sizing:border-box;
+    padding:0 15px;
+    margin-top:50px;
+     margin-bottom: 50px;
   }
   .vedioes ul li{
       width:2.8693rem;

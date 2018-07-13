@@ -118,11 +118,18 @@ export default {
             this.$store.state.index.active = 0
           }else if(to.fullPath == '/Future/vedioes'){
             this.$store.state.index.active = 1
+            this.$store.state.future.active = 1
+          }else if(to.fullPath == '/Future/lives'){
+            this.$store.state.index.active = 1
+            this.$store.state.future.active = 0
+          }else if(to.fullPath == '/Future/news'){
+            this.$store.state.index.active = 1
+            this.$store.state.future.active = 2
           }else if(to.fullPath == '/My'){
             this.$store.state.index.active = 2
           }
-            this.$store.state.isBottom = 1 
-            this.$store.state.error = 1
+          this.$store.state.isBottom = 1 
+          this.$store.state.error = 1
       } 
     }
 }
@@ -165,5 +172,19 @@ export default {
     margin: 0 auto;
     padding-top: 3.5rem;
     display: block;
+  }
+  /* 可以设置不同的进入和离开动画 */
+  /* 设置持续时间和动画函数 */
+  .sideUp-enter-to, .sideUp-leave-to{
+      transition: transform 0.3s
+  }
+  .sideUp-enter, .sideUp-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+      transform:translate3d(0,100%,0)
+  }
+  .noComment{
+    width:100%;
+    text-align:center;
+    margin-top: 0.4rem;
   }
 </style>

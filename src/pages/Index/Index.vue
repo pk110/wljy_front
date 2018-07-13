@@ -39,7 +39,7 @@
                         </div>
                      </div>
                  </div>
-                 <p>{{item.title}}</p>
+                 <p class="indexBottom">{{item.title}}</p>
                </li>
             </ul>
             <div class="more_content"><router-link :to="{path:'/Future/lives'}">更多直播</router-link></div>
@@ -52,6 +52,7 @@
             </div>
             <ul>
                <li v-for="item in vedioesListFour">
+                <router-link :to="{path:'/Future/vedioes/'+item.id,params:{id:item.id}}">
                  <div class="index_box" v-lazy:background-image="item.image">
                      <div class="index_box_bottom">
                         <span>{{item.author}}</span>
@@ -61,7 +62,8 @@
                         </div>
                      </div>
                  </div>
-                 <p>{{item.title}}</p>
+                 <p class="indexBottom">{{item.title}}</p>
+                </router-link>
                </li>
             </ul>
             <div class="more_content"><router-link :to="{path:'/Future/vedioes'}">更多视频</router-link></div>
@@ -74,6 +76,7 @@
             </div>
             <ul>
                <li v-for="item in newsListFour">
+                <router-link :to="{path:'/Future/news/'+item.news_id,params:{news_id:item.news_id}}">
                  <div class="index_box" v-lazy:background-image="item.image">
                      <div class="index_box_bottom">
                         <span>{{item.author}}</span>
@@ -83,7 +86,8 @@
                         </div>
                      </div>
                  </div>
-                 <p>{{item.title}}</p>
+                 <p class="indexBottom">{{item.title}}</p>
+                </router-link>
                </li>
             </ul>
             <div class="more_content"><router-link :to="{path:'/Future/news'}">更多新闻</router-link></div>
@@ -293,5 +297,8 @@
         text-align:center;
         line-height:1.3rem;
         color:gray;
+    }
+    .indexBottom{
+      color:#000;
     }
 </style>

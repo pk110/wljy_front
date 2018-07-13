@@ -1,14 +1,14 @@
 <template>
-    <div class="comments">
-        <div class="comment_top">
+    <div class="commentVedioes">
+        <div class="commentVedioes_top">
             <span @click="cancelComment">取消</span>
-            <div class="comment_top_center">
+            <div class="commentVedioes_top_center">
                 <span>发评论</span>
-                <span class="comment_name">杠南</span>
+                <span class="commentVedioes_name">杠南</span>
             </div>
-            <span class="comment_top_end" @click="sendContent">发送</span>
+            <span class="commentVedioes_top_end" @click="sendContent">发送</span>
         </div>
-        <div class="comment_content">
+        <div class="commentVedioes_content">
           <van-cell-group>
             <van-field
               v-model="message"
@@ -32,12 +32,16 @@
         methods:{
           //取消评论弹窗
           cancelComment(){
-            this.$store.dispatch('cancelComment')
+            this.$store.dispatch('cancelCommentVedioes')
           },
           //发表评论
           sendContent(){
             this.$stamp(null,this.message)
             this.$stamp(null,this.$store.state.vedioes.commentType)
+            if(this.message == ''){
+              this.$Toast('评论内容不能为空')
+              return false
+            }
             if(this.$store.state.vedioes.commentType == 3){
               // 底部发表评论
               const data = {
@@ -49,7 +53,7 @@
                   .then((res)=>{ 
                       this.$stamp(null,res)
                       if(res.code == 200){
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                         const data = {
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
@@ -68,7 +72,7 @@
                         })
                       }else{
                         this.$Toast(res.message)
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                       } 
                   })
                   .catch((res) =>{
@@ -86,7 +90,7 @@
                   .then((res)=>{ 
                       this.$stamp(null,res)
                       if(res.code == 200){
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                         const data = {
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
@@ -105,7 +109,7 @@
                         })
                       }else{
                         this.$Toast(res.message)
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                       } 
                   })
                   .catch((res) =>{
@@ -123,7 +127,7 @@
                   .then((res)=>{ 
                       this.$stamp(null,res)
                       if(res.code == 200){
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                         const data = {
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
@@ -142,7 +146,7 @@
                         })
                       }else{
                         this.$Toast(res.message)
-                        this.$store.dispatch('cancelComment')
+                        this.$store.dispatch('cancelCommentVedioes')
                       } 
                   })
                   .catch((res) =>{
@@ -163,7 +167,7 @@
     }  
 </script>
 <style lang="">
-    .comments{
+    .commentVedioes{
         position:fixed;
         top:0;
         bottom:0;
@@ -173,7 +177,7 @@
         background:#fff;    
         z-index: 200;
     } 
-    .comment_top{
+    .commentVedioes_top{
         width:100%;
         box-sizing:border-box;
         padding:3px 10px;
@@ -183,20 +187,20 @@
         background-color:#eee;
         box-shadow: 0px 2px 3px #ccc;
     }
-    .comment_top_center{
+    .commentVedioes_top_center{
         display:flex;
         flex-direction:column;
         justify-content:center;
         align-items:center;
     }
-    .comment_top_end{
+    .commentVedioes_top_end{
         box-sizing:border-box;
         padding:3px 5px;
         border:1px solid #ddd;
         border-radius:2px;
         color:gray;
     }
-    .comment_name{
+    .commentVedioes_name{
         color:gray;
     }
 </style>
