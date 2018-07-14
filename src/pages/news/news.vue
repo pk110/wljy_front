@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import { PullRefresh } from 'vant'
 import Future from './../../components/Future/Future' 
 
 export default {
@@ -57,7 +56,6 @@ export default {
       }
     },
     components: {
-      'van-pull-refresh':PullRefresh,
       Future
     },
     created(){

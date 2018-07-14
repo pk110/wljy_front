@@ -19,8 +19,8 @@
         <img :src="vedioes_detail.image" />
         <span>{{vedioes_detail.author}}</span>
       </div>
-      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention('1',vedioes_detail.id,2)">+ 关注</div>
-      <div class="vedioes_detail_author_right_did" @click="cancelAttention('1',vedioes_detail.id,2)" v-else>已关注</div>
+      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention('1',vedioes_detail.id,2)">+ 收藏</div>
+      <div class="vedioes_detail_author_right_did" @click="cancelAttention('1',vedioes_detail.id,2)" v-else>已收藏</div>
     </div>
     <div class="vedioes_head">全部评论</div>
     <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">

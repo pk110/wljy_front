@@ -1,6 +1,7 @@
 <template>
   <div id="app">
 
+    <div @click="addLogin">弹出登录</div>
     <router-view v-if="error == 1"/>
     <!--请求数据失败动画-->
     <img :src="errorImg" v-else class="loadingImg" />
@@ -16,11 +17,16 @@
       </van-tabbar-item>
     </van-tabbar>
     <div v-else></div>
+    <!--登录界面 微信静默登录-->
+    <transition  name="sideUp">
+      <Login v-if="showLogin"></Login>
+    </transition>
   </div>
 </template>
 
 <script>
 import { Tabbar, TabbarItem } from 'vant'
+import Login from './pages/login/login'
 // const future = require('./assets/future.png')
 // const future_active = require('./assets/future_active.png')
 // const index = require('./assets/index.png')
@@ -84,7 +90,9 @@ export default {
         }
     },
     methods:{
-      
+      addLogin(){
+        this.$store.dispatch('showLogin')
+      }
     },
     computed: {
       showImg(){
@@ -98,6 +106,14 @@ export default {
               
           }
       },
+      showLogin:{
+        get:function(){
+          return this.$store.state.showLogin
+        },
+        set:function(){
+
+        }
+      },
       error(){
         return this.$store.state.error
       },
@@ -107,7 +123,8 @@ export default {
     },
     components: {
       "van-tabbar":Tabbar,
-      "van-tabbar-item":TabbarItem
+      "van-tabbar-item":TabbarItem,
+      "Login":Login
     },
     created(){
       
@@ -186,5 +203,8 @@ export default {
     width:100%;
     text-align:center;
     margin-top: 0.4rem;
+  }
+  .commentNews_content .van-hairline--top-bottom::after{
+    border-width:0;
   }
 </style>

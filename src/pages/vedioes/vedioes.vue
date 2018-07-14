@@ -25,7 +25,6 @@
   </div>
 </template>
 <script>
-   import { PullRefresh } from 'vant' 
    import Future from './../../components/Future/Future' 
 
     export default {
@@ -63,7 +62,6 @@
             }
         },
         components: {
-            'van-pull-refresh':PullRefresh,
             Future
         },
         created(){
@@ -81,7 +79,7 @@
      margin-bottom: 50px;
   }
   .vedioes ul li{
-      width:2.8693rem;
+      width:2.8rem;
       float:left;
       font-size:0.12rem;
       color:#ddd;

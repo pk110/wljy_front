@@ -11,8 +11,8 @@
     <img :src="news_detail.image" />
     <p>{{news_detail.content}}</p>
     <div class="news_detail_attention">
-      <div v-if="news_detail.status == 0" class="news_detail_attention_add" @click="attention('1',news_detail.id,3)">+ 关注</div>
-      <div v-else class="news_detail_attention_cancel" @click="cancelAttention('1',news_detail.id,3)">已关注</div>
+      <div v-if="news_detail.status == 0" class="news_detail_attention_add" @click="attention('1',news_detail.id,3)">+ 收藏</div>
+      <div v-else class="news_detail_attention_cancel" @click="cancelAttention('1',news_detail.id,3)">已收藏</div>
     </div>
     <ul class="news_comments comments_bottom" v-if="news_detail.comments !== undefined">
       <li v-for="item in news_detail.comments" :key="item.comment_name">

@@ -8,12 +8,11 @@ import axios from 'axios'
 import {post,fetch,patch,put} from './http/http'
 import {getCookie,setCookie,delCookie,stamp} from './utils/utils'
 import store from './store/store'
-import { Lazyload,Field,Toast} from 'vant';
+import { Lazyload,Field,Toast,List,Cell,CellGroup,PullRefresh,NavBar,NumberKeyboard} from 'vant';
 const error = require('./assets/png_error.png')
 const loading = require('./assets/loading_img.gif')
 
-Vue.use(Field);
-Vue.use(Lazyload,{
+Vue.use(Field).use(NumberKeyboard).use(NavBar).use(PullRefresh).use(Cell).use(CellGroup).use(List).use(Lazyload,{
   loading:loading,
   error:error,
   preload:'0.3',
@@ -23,7 +22,7 @@ Vue.use(Lazyload,{
 Vue.config.productionTip = false
 
 // 根地址   http://192.168.42.2:3000  http://192.168.56.1:3000
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://localhost:3000/front/api';
 
 // 全局调用
 Vue.prototype.$post = post;

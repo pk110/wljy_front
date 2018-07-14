@@ -53,9 +53,9 @@ const router =  new Router({
       component:  resolve => require(['./../pages/My/My'], resolve)
     },{
       // ++++++++++++++++++++++我的关注
-      path: '/MyAttention',
+      path: '/myCollection',
       name:'我的关注',
-      component:  resolve => require(['./../pages/MyAttention/MyAttention'], resolve)
+      component:  resolve => require(['./../pages/myCollection/myCollection'], resolve)
     }
   ]
 })
