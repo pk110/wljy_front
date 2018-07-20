@@ -1,7 +1,7 @@
 <template>
   <div id="app">
+    <!--<div @click="addLogin">弹出登录</div>-->
 
-    <div @click="addLogin">弹出登录</div>
     <router-view v-if="error == 1"/>
     <!--请求数据失败动画-->
     <img :src="errorImg" v-else class="loadingImg" />
@@ -90,9 +90,9 @@ export default {
         }
     },
     methods:{
-      addLogin(){
-        this.$store.dispatch('showLogin')
-      }
+      // addLogin(){
+      //   this.$store.dispatch('showLogin')
+      // }
     },
     computed: {
       showImg(){
@@ -120,6 +120,9 @@ export default {
       isBottom(){
         return this.$store.state.isBottom
       }
+      // historyWatch () {
+      //   this.news = (this.$route.path === '/new' ? 1 : 0);
+      // }
     },
     components: {
       "van-tabbar":Tabbar,
@@ -127,9 +130,30 @@ export default {
       "Login":Login
     },
     created(){
-      
+      //微信静默登陆入口
+      // 如果是新用户则入库 把this.$store.state.user_id改变，否则就要改变查询是否绑定了this.$store.state.status的状态
+      const data = {
+        name:'pk',
+        sex:1,
+        userImg:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4089992707,3524618747&fm=27&gp=0.jpg'
+      }
+      this.$post('/register',data)
+          .then((res)=>{ 
+              this.$stamp(null,res)
+              if(res.code == 200){
+                this.$store.state.user_id = 1
+                this.$store.state.status = 1
+              }else{
+                this.$Toast(res.message)
+              } 
+          })
+          .catch((res) =>{
+              console.log(res)
+      })
     },
     watch: {
+      // // 路由若是发生变化，会再次执行该方法  还可以这种写法
+      // '$route': 'historyWatch';
       $route(to, from) {  
           if(to.fullPath == '/index'){
             this.$store.state.index.active = 0

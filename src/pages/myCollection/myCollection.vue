@@ -73,7 +73,7 @@
             // 上拉加载
           onLoad() {  
               const data ={
-                  user_id:'1',
+                  user_id:this.$store.state.user_id,
                   currentPage:count
               }
             this.$post('/myCollection',data)
@@ -100,7 +100,7 @@
           //下拉刷新
           onRefresh() {
             const data ={
-                user_id:'1',
+                user_id:this.$store.state.user_id,
                 currentPage:1
             }
             this.$post('/myCollection',data)

@@ -11,8 +11,8 @@
     <img :src="news_detail.image" />
     <p>{{news_detail.content}}</p>
     <div class="news_detail_attention">
-      <div v-if="news_detail.status == 0" class="news_detail_attention_add" @click="attention('1',news_detail.id,3)">+ 收藏</div>
-      <div v-else class="news_detail_attention_cancel" @click="cancelAttention('1',news_detail.id,3)">已收藏</div>
+      <div v-if="news_detail.status == 0" class="news_detail_attention_add" @click="attention(news_detail.id,3)">+ 收藏</div>
+      <div v-else class="news_detail_attention_cancel" @click="cancelAttention(news_detail.id,3)">已收藏</div>
     </div>
     <ul class="news_comments comments_bottom" v-if="news_detail.comments !== undefined">
       <li v-for="item in news_detail.comments" :key="item.comment_name">
@@ -33,7 +33,7 @@
       </li>
     </ul>
     <div v-else class="noComment">暂时没有评论</div>
-    <div @click="isShowComment(null,'1',3)" class="news_comment_bottom">
+    <div @click="isShowComment(null,this.$store.state.user_id,3)" class="news_comment_bottom">
       <img src="./../../assets/comment.png" />
       <span>评论</span>
     </div>
@@ -55,7 +55,7 @@ export default {
       //   获取新闻详情页信息
       getNews_detail(news_id){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           news_id:news_id,
           topic_type:3
         }
@@ -87,9 +87,9 @@ export default {
         this.$store.state.news.showComment = true
       },
       // 关注新闻
-      attention(user_id,news_id,topic_type){
+      attention(news_id,topic_type){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           to_id:news_id,
           topic_type
         }
@@ -107,9 +107,9 @@ export default {
         })
       },
       //取消关注新闻
-      cancelAttention(user_id,news_id,topic_type){
+      cancelAttention(news_id,topic_type){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           to_id:news_id,
           topic_type
         }

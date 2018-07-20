@@ -19,8 +19,8 @@
         <img :src="vedioes_detail.image" />
         <span>{{vedioes_detail.author}}</span>
       </div>
-      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention('1',vedioes_detail.id,2)">+ 收藏</div>
-      <div class="vedioes_detail_author_right_did" @click="cancelAttention('1',vedioes_detail.id,2)" v-else>已收藏</div>
+      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention(vedioes_detail.id,2)">+ 收藏</div>
+      <div class="vedioes_detail_author_right_did" @click="cancelAttention(vedioes_detail.id,2)" v-else>已收藏</div>
     </div>
     <div class="vedioes_head">全部评论</div>
     <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">
@@ -42,7 +42,7 @@
       </li>
     </ul>
     <div v-else class="noComment">暂时没有评论</div>
-    <div @click="isShowComment(null,'1',3)" class="vedioes_comment_bottom">
+    <div @click="isShowComment(null,this.$store.state.user_id,3)" class="vedioes_comment_bottom">
       <img src="./../../assets/comment.png" />
       <span>评论</span>
     </div>
@@ -106,7 +106,9 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       // 开始播放
       onPlayerPlay(player) {
         console.log(player.paused())
-        this.onPlayerPause()
+        if(this.$store.state.status == 0){
+          this.$store.dispatch('showLogin')
+        }
       },
       // 停止播放
       onPlayerPause(player){
@@ -115,7 +117,7 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       // 获取详情页信息
       getVedioes_detail(vedioes_id){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           vedioes_id:vedioes_id,
           topic_type:2
         }
@@ -147,9 +149,9 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
         this.$store.state.vedioes.showComment = true
       },
       // 关注视频
-      attention(user_id,vedioes_id,topic_type){
+      attention(vedioes_id,topic_type){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           to_id:vedioes_id,
           topic_type:2
         }
@@ -167,9 +169,9 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
         })
       },
       //取消关注视频
-      cancelAttention(user_id,vedioes_id,topic_type){
+      cancelAttention(vedioes_id,topic_type){
         const data = {
-          user_id:'1',
+          user_id:this.$store.state.user_id,
           to_id:vedioes_id,
           topic_type:2
         }
