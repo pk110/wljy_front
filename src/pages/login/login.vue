@@ -237,11 +237,13 @@ export default {
         height:auto;
     }
     .login_body_phone{
+      width: 4rem;
       display:flex;
       align-items:center;
       justify-content:flex-start;
     }
     .login_body_phone_input{
+      flex:1;
         margin-left:10px;
         display:flex;
         height:20px;
@@ -251,15 +253,17 @@ export default {
     .login_body_phone_input input{
       padding-left:5px;
       border-width:0;
+      width:100%;
     }
     .login_body_phone_input span{
-      display:inline-block;
       width:1px;
+      display:inline-block;
       height:0.1rem;
       background-color:#ccc;
       margin-top:0.23rem;
     }
     .login_body_code{
+      width: 4rem;
       display:flex;
       align-items:center;
       justify-content:flex-start;
@@ -272,6 +276,7 @@ export default {
       align-items:center;
       justify-content:flex-start;
       border-bottom:1px solid #ccc;
+      flex:1;
     }
     .login_body_code_input input{
       padding-left:5px;
@@ -279,7 +284,7 @@ export default {
       width:1.5rem;
     }
     .login_body_code_input span{
-      width: 1.1rem;
+      flex:1;
     text-align: right;
       color:#d8ac65;
     }

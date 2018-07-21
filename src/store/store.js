@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     showLogin:false, //静默登陆界面
     error:1,  //请求失败
     isBottom:1,  //什么时候不需要底部
-    user_id:'1',  //进入微信登陆入库到用户表里对应的用户id
+    user_id:0,  //进入微信登陆入库到用户表里对应的用户id
     status:0  //判断用户是否绑定了手机号  0 未绑定 1绑定
   },
   getters: {

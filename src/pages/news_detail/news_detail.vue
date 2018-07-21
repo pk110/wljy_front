@@ -33,7 +33,7 @@
       </li>
     </ul>
     <div v-else class="noComment">暂时没有评论</div>
-    <div @click="isShowComment(null,this.$store.state.user_id,3)" class="news_comment_bottom">
+    <div @click="isShowComment(null,null,3)" class="news_comment_bottom">
       <img src="./../../assets/comment.png" />
       <span>评论</span>
     </div>
@@ -77,6 +77,9 @@ export default {
         this.$stamp(null,id)
         this.$stamp(null,val)
         this.$stamp(null,bool)
+        if(val == null){
+          val = this.$store.state.user_id
+        }
         this.$store.state.news.comment_id = id
         this.$store.state.news.commentType = bool
         if(bool == 3){

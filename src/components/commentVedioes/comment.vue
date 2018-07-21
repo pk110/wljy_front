@@ -55,6 +55,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentVedioes')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
                         }
@@ -92,6 +93,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentVedioes')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
                         }
@@ -129,6 +131,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentVedioes')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           vedioes_id:this.$store.state.vedioes.vedioes_id,
                           topic_type:2
                         }

@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <title>未来教育</title>
-  </head>
-  <style>
-    .box{
-      position:fixed;
-      top:0;
-      bottom:0;
-      left:0;
-      right:0;
-      z-index:-1;
-      background-color:#fff;
-    }
-  </style>
-  <body style="background:#fff">
-    <div id="app"></div>
-    <div class="box"></div>
-    <!-- built files will be auto injected -->
-    <!-- 200px转1rem -->
-    <script>(function (doc, win) {var docEl = doc.documentElement,resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',recalc = function () {var clientWidth = docEl.clientWidth;if (!clientWidth) return;if(clientWidth>=640){docEl.style.fontSize = '100px';}else{docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';}};if (!doc.addEventListener) return;win.addEventListener(resizeEvt, recalc, false);doc.addEventListener('DOMContentLoaded', recalc, false);})(document, window);</script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>未来教育</title>
+</head>
+<style>
+  .box {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #fff;
+  }
+</style>
+
+<body style="background:#fff">
+  <div id="app"></div>
+  <div class="box"></div>
+  <!-- built files will be auto injected -->
+  <!-- 100px转1rem -->
+  <script>
+    (function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>=640){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                }
+            };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+</body>
+
 </html>

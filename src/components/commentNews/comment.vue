@@ -55,6 +55,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentNews')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           news_id:this.$store.state.news.news_id,
                           topic_type:3
                         }
@@ -92,6 +93,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentNews')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           news_id:this.$store.state.news.news_id,
                           topic_type:3
                         }
@@ -129,6 +131,7 @@
                       if(res.code == 200){
                         this.$store.dispatch('cancelCommentNews')
                         const data = {
+                          user_id:this.$store.state.user_id,
                           news_id:this.$store.state.news.news_id,
                           topic_type:3
                         }

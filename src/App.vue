@@ -133,7 +133,7 @@ export default {
       //微信静默登陆入口
       // 如果是新用户则入库 把this.$store.state.user_id改变，否则就要改变查询是否绑定了this.$store.state.status的状态
       const data = {
-        name:'pk',
+        name:'zy',
         sex:1,
         userImg:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4089992707,3524618747&fm=27&gp=0.jpg'
       }
@@ -141,8 +141,8 @@ export default {
           .then((res)=>{ 
               this.$stamp(null,res)
               if(res.code == 200){
-                this.$store.state.user_id = 1
-                this.$store.state.status = 1
+                this.$store.state.user_id = res.data.user_id
+                this.$store.state.status = res.data.status
               }else{
                 this.$Toast(res.message)
               } 
@@ -205,6 +205,9 @@ export default {
   button,input,textarea{
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }  
+  div{
+    font-size: 0.12rem;
+  }
   .van-tabbar-item--active{
     color:#d8a863;
   }
@@ -228,7 +231,10 @@ export default {
     text-align:center;
     margin-top: 0.4rem;
   }
-  .commentNews_content .van-hairline--top-bottom::after{
+  /*.commentNews_content .van-hairline--top-bottom::after{
+    border-width:0;
+  }*/
+  :global(.van-hairline--top-bottom::after){
     border-width:0;
   }
 </style>
