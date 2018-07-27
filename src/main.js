@@ -8,11 +8,11 @@ import axios from 'axios'
 import {post,fetch,patch,put} from './http/http'
 import {getCookie,setCookie,delCookie,stamp} from './utils/utils'
 import store from './store/store'
-import { Lazyload,Field,Toast,List,Cell,CellGroup,PullRefresh,NavBar,NumberKeyboard,Checkbox, CheckboxGroup} from 'vant';
+import { Lazyload,Field,Toast,List,Cell,CellGroup,SubmitBar,PullRefresh,NavBar,Card,NumberKeyboard,Checkbox, CheckboxGroup,Tab, Tabs,GoodsAction,GoodsActionBigBtn,GoodsActionMiniBtn} from 'vant';
 const error = require('./assets/png_error.png')
 const loading = require('./assets/loading_img.gif')
 
-Vue.use(Field).use(Checkbox).use(CheckboxGroup).use(NumberKeyboard).use(NavBar).use(PullRefresh).use(Cell).use(CellGroup).use(List).use(Lazyload,{
+Vue.use(Field).use(SubmitBar).use(GoodsAction).use(Card).use(GoodsActionBigBtn).use(GoodsActionMiniBtn).use(Checkbox).use(CheckboxGroup).use(NumberKeyboard).use(NavBar).use(PullRefresh).use(Cell).use(CellGroup).use(List).use(Tab).use(Tabs).use(Lazyload,{
   loading:loading,
   error:error,
   preload:'0.3',

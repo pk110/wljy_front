@@ -56,6 +56,16 @@ const router =  new Router({
       path: '/myCollection',
       name:'我的关注',
       component:  resolve => require(['./../pages/myCollection/myCollection'], resolve)
+    },{
+      // ++++++++++++++++++++++我的购物车
+      path: '/myCarts',
+      name:'我的购物车',
+      component:  resolve => require(['./../pages/myCarts/myCarts'], resolve)
+    },{
+      // ++++++++++++++++++++++订单页面
+      path: '/order',
+      name:'订单',
+      component:  resolve => require(['./../pages/order/order'], resolve)
     }
   ]
 })

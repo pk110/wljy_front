@@ -1,51 +1,65 @@
 <template>  
   <div class="container">
     <div class="player">
+                      <!--@ready="playerReadied"-->
       <video-player  class="video-player vjs-custom-skin"
                      ref="videoPlayer"
                      :playsinline="true"
                      :options="playerOptions"
                      @play="onPlayerPlay($event)"
-                     @pause="onPlayerPause($event)"
       >
       </video-player>
     </div>
-    <div class="vedioes_detail_title">
-      <p class="vedioes_detail_title_left">{{vedioes_detail.title}}</p>
-      <p class="vedioes_detail_title_right">{{vedioes_detail.time}}</p>
-    </div>
-    <div class="vedioes_detail_author">
-      <div class="vedioes_detail_author_left">
-        <img :src="vedioes_detail.image" />
-        <span>{{vedioes_detail.author}}</span>
-      </div>
-      <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention(vedioes_detail.id,2)">+ 收藏</div>
-      <div class="vedioes_detail_author_right_did" @click="cancelAttention(vedioes_detail.id,2)" v-else>已收藏</div>
-    </div>
-    <div class="vedioes_head">全部评论</div>
-    <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">
-      <li v-for="item in vedioes_detail.comments" :key="item.comment_name">
-        <img class="vedioes_comment_img" :src="item.comment_userImg" alt="">
-        <div class="vedioes_comment">
-          <p style="color:gray">{{item.comment_name}}</p>
-          <p>{{item.comment_content}}</p>
-          <ul>
-            <li class="vedioes_reply" v-for="items in item.new_replys" @click="isShowComment(item.comment_id,items.reply_user_id,1)"><!--reply_user_id是第一个人的id-->
-              <span style="color:gray">{{items.re_name}}</span>评论<span style="color:gray">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
+    <van-tabs @click="toggleTitle" :line-width="lineWidth"  v-model="active" swipeable>
+      <van-tab v-for="items in listTitle" :title="items.name" :key="items.name">
+        <div v-if="myIntroll">
+          <div class="vedioes_detail_title">
+            <p class="vedioes_detail_title_left">{{vedioes_detail.title}}</p>
+            <p class="vedioes_detail_title_right">{{vedioes_detail.time}}</p>
+          </div>
+          <div class="vedioes_detail_author">
+            <div class="vedioes_detail_author_left">
+              <img :src="vedioes_detail.image" />
+              <span>{{vedioes_detail.author}}</span>
+            </div>
+            <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention(vedioes_detail.id,2)">+ 收藏</div>
+            <div class="vedioes_detail_author_right_did" @click="cancelAttention(vedioes_detail.id,2)" v-else>已收藏</div>
+          </div>
+          <van-goods-action>
+            <van-goods-action-mini-btn icon="chat" text="咨询" @click="contact" />
+            <van-goods-action-mini-btn icon="cart" text="购物车" :info="cartsNumber" :to="pushCart" />
+            <van-goods-action-big-btn text="加入购物车" @click="addCarts(vedioes_detail.id,2)" />
+            <van-goods-action-big-btn text="立即购买" @click="nowBuy" primary />
+          </van-goods-action>
+        </div>
+        <div v-if="myComment">
+          <div class="vedioes_head">全部评论</div>
+          <ul class="vedioes_comments comments_bottom" v-if="vedioes_detail.comments !== undefined">
+            <li v-for="item in vedioes_detail.comments" :key="item.comment_name">
+              <img class="vedioes_comment_img" :src="item.comment_userImg" alt="">
+              <div class="vedioes_comment">
+                <p style="color:gray">{{item.comment_name}}</p>
+                <p>{{item.comment_content}}</p>
+                <ul>
+                  <li class="vedioes_reply" v-for="items in item.new_replys" @click="isShowComment(item.comment_id,items.reply_user_id,1)"><!--reply_user_id是第一个人的id-->
+                    <span style="color:gray">{{items.re_name}}</span>评论<span style="color:gray">{{items.re_to_name}}</span>:<span>{{items.re_content}}</span>
+                  </li>
+                </ul>
+                <div class="vedioes_bottom">
+                  <span>{{item.time}}</span>
+                  <img src="./../../assets/commentList.png" @click="isShowComment(item.comment_id,item.comment_user_id,2)" /><!--comment_user_id是最外层评论人的id-->
+                </div>
+              </div>
             </li>
           </ul>
-          <div class="vedioes_bottom">
-            <span>{{item.time}}</span>
-            <img src="./../../assets/commentList.png" @click="isShowComment(item.comment_id,item.comment_user_id,2)" /><!--comment_user_id是最外层评论人的id-->
+          <div v-else class="noComment">暂时没有评论</div>
+          <div @click="isShowComment(null,null,3)" class="vedioes_comment_bottom">
+            <img src="./../../assets/comment.png" />
+            <span>评论</span>
           </div>
         </div>
-      </li>
-    </ul>
-    <div v-else class="noComment">暂时没有评论</div>
-    <div @click="isShowComment(null,null,3)" class="vedioes_comment_bottom">
-      <img src="./../../assets/comment.png" />
-      <span>评论</span>
-    </div>
+      </van-tab>
+    </van-tabs>
     <transition  name="sideUp">
       <comment v-if="showComment"></comment>
     </transition>
@@ -67,6 +81,15 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
   export default {
     data () {
         return {
+          lineWidth:60,
+          cartsNumber:this.$store.state.cartsNumber == 0?'':this.$store.state.cartsNumber,
+          pushCart:'/myCarts',
+          active:this.$store.state.vedioes.active,
+          listTitle:[{
+            name:'介绍'
+          },{
+            name:'评论'
+          }],
           playerOptions: {
             autoplay: false,
             controls: true,
@@ -102,17 +125,42 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
           }
         }
     },
-    methods:{
+    methods:{    
+      nowBuy() {
+        this.$Toast('立刻购买');
+      },
+      addCarts(vedioes_id,topic_type) {
+        const data = {
+          user_id:this.$store.state.user_id,
+          to_id:vedioes_id,
+          topic_type:2
+        }
+        this.$post('/addCarts',data)
+            .then((res)=>{ 
+                this.$stamp(null,res)
+                if(res.code == 200){
+                  this.$Toast.success('添加成功');
+                }else{
+                  this.$Toast('网络错误!')
+                } 
+            })
+            .catch((res) =>{
+                console.log(res)
+        })
+      },
+      //联系客服
+      contact(){
+        this.$Toast('联系客服');
+      },
       // 开始播放
       onPlayerPlay(player) {
-        console.log(player.paused())
+        // 先判断是否登陆绑定
         if(this.$store.state.status == 0){
+          this.$refs.videoPlayer.player.pause()
           this.$store.dispatch('showLogin')
+          return false
         }
-      },
-      // 停止播放
-      onPlayerPause(player){
-        console.log(player)
+        //再判断是否需要购买 如果免费则直接看 付费则购买
       },
       // 获取详情页信息
       getVedioes_detail(vedioes_id){
@@ -190,6 +238,18 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
             .catch((res) =>{
                 console.log(res)
         })
+      },
+      //切换标题
+      toggleTitle(index, title){
+        console.log(index)
+        console.log(title)
+        if(index == 0){
+          this.$store.state.vedioes.myIntroll = true
+          this.$store.state.vedioes.myComment = false
+        }else if(index == 1){
+          this.$store.state.vedioes.myIntroll = false
+          this.$store.state.vedioes.myComment = true
+        }
       }
     },
     computed: {
@@ -206,6 +266,12 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       },
       showComment(){
         return this.$store.state.vedioes.showComment
+      },
+      myIntroll(){
+        return this.$store.state.vedioes.myIntroll
+      },
+      myComment(){
+        return this.$store.state.vedioes.myComment
       }
     },
     components: {
@@ -217,11 +283,23 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       this.$stamp(null,this.$route.params.id)
       this.$store.state.vedioes.vedioes_id = this.$route.params.id
       this.getVedioes_detail(this.$route.params.id)
+    },
+    watch: {
+      'active'(a) {
+        if(a == 0){
+          this.$store.state.vedioes.myIntroll = true
+          this.$store.state.vedioes.myComment = false
+        }else if(a == 1){
+          this.$store.state.vedioes.myIntroll = false
+          this.$store.state.vedioes.myComment = true
+        }
+      }
+    },
+    beforeDestroy(){
+      this.$stamp(null,'组件销毁前')
+      this.$store.state.vedioes.myIntroll = true
+      this.$store.state.vedioes.myComment = false
     }
-    // ,
-    // beforeDestroy: () => {
-    //   this.dispose()
-    // }
   }
 </script>
 
@@ -357,5 +435,8 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
   }
   :global(.vjs-custom-skin > .video-js .vjs-play-progress){
     background-color:#fff;
+  }
+  .video-js .vjs-volume-panel{
+    padding-top: 0.15rem;
   }
 </style>

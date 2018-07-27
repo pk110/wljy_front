@@ -8,7 +8,6 @@
   </div>
 </template>
 <script>
-  import { Tab, Tabs } from 'vant'
 
   export default {
       data () {
@@ -36,8 +35,7 @@
         // }
       },
       components: {
-          'van-tabs':Tabs,
-          'van-tab':Tab
+        
       },
       created(){
           

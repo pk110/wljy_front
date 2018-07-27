@@ -119,6 +119,30 @@ export default {
       },
       isBottom(){
         return this.$store.state.isBottom
+      },
+      insertUser(){
+        let user = new Promise((resolve,reject) =>{
+          const data = {
+            name:this.$store.state.username,
+            sex:1,
+            userImg:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4089992707,3524618747&fm=27&gp=0.jpg'
+          }
+          this.$post('/register',data)
+              .then((res)=>{ 
+                  this.$stamp(null,res)
+                  if(res.code == 200){
+                    this.$store.state.user_id = res.data.user_id
+                    this.$store.state.status = res.data.status
+                    resolve(res.data.user_id)
+                  }else{
+                    this.$Toast(res.message)
+                  } 
+              })
+              .catch((res) =>{
+                  console.log(res)
+          })
+        })
+        return user
       }
       // historyWatch () {
       //   this.news = (this.$route.path === '/new' ? 1 : 0);
@@ -132,23 +156,20 @@ export default {
     created(){
       //微信静默登陆入口
       // 如果是新用户则入库 把this.$store.state.user_id改变，否则就要改变查询是否绑定了this.$store.state.status的状态
-      const data = {
-        name:'zy',
-        sex:1,
-        userImg:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4089992707,3524618747&fm=27&gp=0.jpg'
-      }
-      this.$post('/register',data)
-          .then((res)=>{ 
-              this.$stamp(null,res)
-              if(res.code == 200){
-                this.$store.state.user_id = res.data.user_id
-                this.$store.state.status = res.data.status
-              }else{
-                this.$Toast(res.message)
-              } 
-          })
-          .catch((res) =>{
-              console.log(res)
+      this.insertUser.then((data) =>{
+        //获取当前用户购物车的数量
+        this.$post('/getCartsNumber',{'user_id':data})
+            .then((res)=>{ 
+                this.$stamp(null,res)
+                if(res.code == 200){
+                  this.$store.state.cartsNumber = res.data.cartsNumber
+                }else{
+                  this.$Toast(res.message)
+                } 
+            })
+            .catch((res) =>{
+                console.log(res)
+        })
       })
     },
     watch: {
@@ -236,5 +257,11 @@ export default {
   }*/
   :global(.van-hairline--top-bottom::after){
     border-width:0;
+  }
+  .van-button--bottom-action{
+    font-size:0.16rem;
+  }
+  .van-pull-refresh{
+    height:100%;
   }
 </style>

@@ -11,7 +11,10 @@ const vedioes = {
         reply_user_id:'',   //回复评论人的用户id
         commentType: 1,// 切换区分是评论还是回复
         comment_id:0, //评论ID
-        vedioes_id:''  //视频详情唯一id
+        vedioes_id:'',  //视频详情唯一id
+        myComment:false,
+        myIntroll:true,
+        active:0
 	},
 	mutations: { 
 	   getVedioesList:(state,newData) =>{

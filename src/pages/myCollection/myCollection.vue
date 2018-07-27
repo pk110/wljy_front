@@ -7,7 +7,7 @@
         left-arrow
         @click-left="onClickLeft"
     />
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh" v-if="myCollectionList.length !== 0">
         <van-list
             v-model="loading"
             :finished="finished"
@@ -49,6 +49,9 @@
             </van-cell>
         </van-list> 
     </van-pull-refresh>
+    <div v-else class="noCollections">
+      您没有收藏哦!
+    </div>
   </div>
 </template>
 <script>
@@ -60,7 +63,7 @@
                 loading: false,
                 isLoading: false,
                 finished: false,
-                check:true
+                check:false
             }
         },
         methods:{
@@ -82,13 +85,12 @@
                     if(res.code == 200){
                         if(res.data.list.length == 0){
                             this.loading = false;
-                            this.finished = true
                         }else{
                             this.$store.dispatch('getCollectionList',res.data.list)
                             count++;
                             this.loading = false;
                         }
-                        console.log(count)
+                            this.finished = true
                     }else{
                         this.$Toast('网络错误!')
                     } 
@@ -130,7 +132,7 @@
         },
         created(){
             this.$store.state.isBottom = 0
-            // this.onRefresh()
+            this.onRefresh()
         }
     }
 </script>
@@ -172,5 +174,12 @@
     }
     .myCollectionListThreeImg img:nth-child(2n){
         margin:0 2%;
+    }
+    .noCollections{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      margin-top:3rem;
+      font-size:0.17rem;
     }
 </style>
