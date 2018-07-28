@@ -14,7 +14,9 @@ const vedioes = {
         vedioes_id:'',  //视频详情唯一id
         myComment:false,
         myIntroll:true,
-        active:0
+        active:0,
+        isSee:0,  //当前的视频是否能看 0不可以看 1可看
+        money:0 //当前视频是否付费
 	},
 	mutations: { 
 	   getVedioesList:(state,newData) =>{
@@ -24,6 +26,8 @@ const vedioes = {
 		    state.vedioes_detail = newData
         state.vedioesAddress = newData.vedioes
         state.vedioesPoster = newData.image
+        state.isSee = newData.isBuy
+        state.money = newData.money
      },
      cancelCommentVedioes:(state) =>{
         state.showComment = false

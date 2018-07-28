@@ -25,7 +25,9 @@
             <div class="vedioes_detail_author_right" v-if="vedioes_detail.status == 0" @click="attention(vedioes_detail.id,2)">+ 收藏</div>
             <div class="vedioes_detail_author_right_did" @click="cancelAttention(vedioes_detail.id,2)" v-else>已收藏</div>
           </div>
-          <van-goods-action>
+          <div v-if="isMoney !== 0 && isSee == 1"></div>
+          <div v-else-if="isMoney == 0"></div>
+          <van-goods-action v-else>
             <van-goods-action-mini-btn icon="chat" text="咨询" @click="contact" />
             <van-goods-action-mini-btn icon="cart" text="购物车" :info="cartsNumber" :to="pushCart" />
             <van-goods-action-big-btn text="加入购物车" @click="addCarts(vedioes_detail.id,2)" />
@@ -82,6 +84,8 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
     data () {
         return {
           lineWidth:60,
+          isSee:this.$store.state.vedioes.isSee, //是否购买 则隐藏底部 0不可看 1可看
+          isMoney:this.$store.state.vedioes.money, //是否付费 则隐藏底部购买直接观看
           cartsNumber:this.$store.state.cartsNumber == 0?'':this.$store.state.cartsNumber,
           pushCart:'/myCarts',
           active:this.$store.state.vedioes.active,
@@ -140,6 +144,8 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
                 this.$stamp(null,res)
                 if(res.code == 200){
                   this.$Toast.success('添加成功');
+                }else if(res.code == 201){
+                  this.$Toast.success('购物车有相同商品哦!');
                 }else{
                   this.$Toast('网络错误!')
                 } 
@@ -155,12 +161,27 @@ require('videojs-contrib-hls/dist/videojs-contrib-hls.js')
       // 开始播放
       onPlayerPlay(player) {
         // 先判断是否登陆绑定
-        if(this.$store.state.status == 0){
-          this.$refs.videoPlayer.player.pause()
-          this.$store.dispatch('showLogin')
-          return false
+        // if(this.$store.state.status == 0){
+        //   this.$refs.videoPlayer.player.pause()
+        //   this.$store.dispatch('showLogin')
+        //   return false
+        // }
+        // 先判断是否是付费视频
+        if(this.$store.state.vedioes.money !== 0){
+          //需付费弹出框立即购买
+          if(this.$store.state.vedioes.isSee == 0){
+            this.$refs.videoPlayer.player.pause()
+            this.$dialog.confirm({
+              title: '提示',
+              message: '付费产品，请立即购买后观看哦!'
+            }).then(() => {
+              // on confirm
+            }).catch(() => {
+              // on cancel
+            })
+            return false
+          }
         }
-        //再判断是否需要购买 如果免费则直接看 付费则购买
       },
       // 获取详情页信息
       getVedioes_detail(vedioes_id){
